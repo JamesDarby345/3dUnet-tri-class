@@ -18,6 +18,7 @@ model:
   final_sigmoid: false
   # if True applies the final normalization layer (sigmoid or softmax), otherwise the networks returns the output from the final convolution layer; use False for regression problems, e.g. de-noising
   is_segmentation: true
+  manual_seed: 42
 # trainer configuration
 trainer:
   # path to the checkpoint directory
@@ -28,9 +29,9 @@ trainer:
   # make sure to decrease the learning rate in the optimizer config accordingly
   pre_trained: null
   # how many iterations between validations
-  validate_after_iters: 100
+  validate_after_iters: 10
   # how many iterations between tensorboard logging
-  log_after_iters: 50
+  log_after_iters: 10
   # max number of epochs
   max_num_epochs: 50
   # max number of iterations
@@ -87,8 +88,8 @@ loaders:
       name: FilterSliceBuilder
       # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better) #180^3 fits in 24GB VRAM, mixed precision may allow larger patches
       patch_shape: [ 180,180,180 ]
-      # train stride between patches
-      stride_shape: [ 90,90,90 ]
+      # train stride between patches, here we use data size (256) - patch size (180) = 76, thus center of patch is preferred
+      stride_shape: [ 76,76,76 ]
       # minimum volume of the labels in the patch
       threshold: 0.01
       # probability of accepting patches which do not fulfil the threshold criterion
@@ -99,6 +100,8 @@ loaders:
       raw: 
         # subtract mean and divide by std dev
         - name: Standardize
+        # randomly changes the contrast of the volume to mean + alpha * (v - mean)
+        - name: RandomContrast
         # randomly flips the volume in one of the axis
         - name: RandomFlip
         # randomly rotates the volume with 90 deg across a randomly chosen plane
@@ -107,12 +110,12 @@ loaders:
           # # rotate only in ZY plane due to anisotropy
           # axes: [ [ 2, 1 ] ]
           # rotate across all planes: XY, XZ, and YZ
-          axes: [ [0, 1], [0, 2], [1, 2] ]
+          axes: null
           # rotates by choosing random angle from [-30, 30] deg
           angle_spectrum: 30
           mode: reflect
-        - name: ElasticDeformation
-          spline_order: 3
+        # - name: ElasticDeformation
+        #   spline_order: 3
         - name: ToTensor
           expand_dims: true
       label: 
@@ -125,8 +128,8 @@ loaders:
           axes: [ [0, 1], [0, 2], [1, 2] ]
           angle_spectrum: 30
           mode: reflect
-        - name: ElasticDeformation
-          spline_order: 0
+        # - name: ElasticDeformation
+        #   spline_order: 0
         # convert target volume to binary mask
         - name: ToTensor
           expand_dims: false
@@ -143,8 +146,8 @@ loaders:
       name: FilterSliceBuilder
       # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better) #180^3 fits in 24GB VRAM, mixed precision may allow larger patches
       patch_shape: [ 180,180,180 ]
-      # train stride between patches
-      stride_shape: [ 90,90,90 ]
+      # train stride between patches, here we use data size (256) - patch size (180) = 76
+      stride_shape: [ 76,76,76 ]
       # minimum volume of the labels in the patch
       threshold: 0.01
       # probability of accepting patches which do not fulfil the threshold criterion

@@ -127,6 +127,7 @@ class RandomContrast:
     def __call__(self, m):
         if self.random_state.uniform() < self.execution_probability:
             alpha = self.random_state.uniform(self.alpha[0], self.alpha[1])
+            self.mean = np.mean(m)
             result = self.mean + alpha * (m - self.mean)
             return np.clip(result, -1, 1)
 

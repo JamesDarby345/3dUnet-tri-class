@@ -14,8 +14,10 @@ def main():
     config, config_path = load_config()
     logger.info(config)
 
-    manual_seed = config.get('manual_seed', None)
+    manual_seed = config.get('model').get('manual_seed', None)
+
     if manual_seed is not None:
+        print(f'Seed the RNG for all devices with {manual_seed}')
         logger.info(f'Seed the RNG for all devices with {manual_seed}')
         logger.warning('Using CuDNN deterministic setting. This may slow down the training!')
         random.seed(manual_seed)
