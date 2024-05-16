@@ -9,6 +9,7 @@ __pycache__/
 
 # Tensorboard logs
 logs/
+/wandb
 
 # PyTorch models
 *.pytorch
