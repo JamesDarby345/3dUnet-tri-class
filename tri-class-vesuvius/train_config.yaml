@@ -3,11 +3,11 @@
 # model configuration
 model:
   # model class, e.g. UNet3D, ResidualUNet3D
-  name: UNet3D
+  name: ResidualUNetSE3D
   # number of input channels to the model
   in_channels: 1
   # number of classes
-  out_channels: 3
+  out_channels: 3 #foreground, background, border
   # determines the order of operators in a single layer (gcr - GroupNorm+Conv3d+ReLU)
   layer_order: gcr
   # number of features at each level of the U-Net
@@ -21,26 +21,26 @@ model:
 # trainer configuration
 trainer:
   # path to the checkpoint directory
-  checkpoint_dir: CHECKPOINT_DIR
+  checkpoint_dir: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints
   # path to the latest checkpoint; if provided the training will be resumed from that checkpoint
-  resume: null
+  resume: null #/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch
   # path to the best_checkpoint.pytorch; to be used for fine-tuning the model with additional ground truth
   # make sure to decrease the learning rate in the optimizer config accordingly
   pre_trained: null
   # how many iterations between validations
-  validate_after_iters: 1000
+  validate_after_iters: 100
   # how many iterations between tensorboard logging
-  log_after_iters: 500
+  log_after_iters: 50
   # max number of epochs
-  max_num_epochs: 200
+  max_num_epochs: 50
   # max number of iterations
-  max_num_iterations: 60000
+  max_num_iterations: 6000000
   # model with higher eval score is considered better
   eval_score_higher_is_better: True
 # loss function configuration
 loss:
-  # use BCE loss for training
-  name: CrossEntropyLoss
+  # use WCE loss for training, to prioritise the border class
+  name: WeightedCrossEntropyLoss
 # optimizer configuration
 optimizer:
   # initial learning rate
@@ -71,31 +71,32 @@ loaders:
   # how many subprocesses to use for data loading
   num_workers: 8
   # path to the raw data within the H5
-  raw_internal_path: raw
+  raw_internal_path: raw/
   # path to the label data within the H5
-  label_internal_path: label
-  # path to the pixel-wise weight map withing the H5 if present
+  label_internal_path: label/
+  # path to the pixel-wise weight map within the H5 if present
   weight_internal_path: null
   # configuration of the train loader
   train:
     # paths to the training datasets
     file_paths:
-      - TRAIN_DIR
+      - /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset
 
     # SliceBuilder configuration, i.e. how to iterate over the input volume patch-by-patch
     slice_builder:
       name: FilterSliceBuilder
-      # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better)
-      patch_shape: [ 80, 170, 170 ]
+      # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better) #180^3 fits in 24GB VRAM, mixed precision may allow larger patches
+      patch_shape: [ 180,180,180 ]
       # train stride between patches
-      stride_shape: [ 20, 40, 40 ]
+      stride_shape: [ 90,90,90 ]
       # minimum volume of the labels in the patch
       threshold: 0.01
       # probability of accepting patches which do not fulfil the threshold criterion
       slack_acceptance: 0.01
 
+    # data augmentation, for now we want to overfit to show it works so commented out
     transformer:
-      raw:
+      raw: 
         # subtract mean and divide by std dev
         - name: Standardize
         # randomly flips the volume in one of the axis
@@ -103,8 +104,10 @@ loaders:
         # randomly rotates the volume with 90 deg across a randomly chosen plane
         - name: RandomRotate90
         - name: RandomRotate
-          # rotate only in ZY plane due to anisotropy
-          axes: [ [ 2, 1 ] ]
+          # # rotate only in ZY plane due to anisotropy
+          # axes: [ [ 2, 1 ] ]
+          # rotate across all planes: XY, XZ, and YZ
+          axes: [ [0, 1], [0, 2], [1, 2] ]
           # rotates by choosing random angle from [-30, 30] deg
           angle_spectrum: 30
           mode: reflect
@@ -112,17 +115,19 @@ loaders:
           spline_order: 3
         - name: ToTensor
           expand_dims: true
-      label:
+      label: 
         - name: RandomFlip
         - name: RandomRotate90
         - name: RandomRotate
-          # rotate only in ZY plane due to anisotropy
-          axes: [ [ 2, 1 ] ]
+          # # rotate only in ZY plane due to anisotropy
+          # axes: [ [ 2, 1 ] ]
+          # rotate across all planes: XY, XZ, and YZ
+          axes: [ [0, 1], [0, 2], [1, 2] ]
           angle_spectrum: 30
           mode: reflect
         - name: ElasticDeformation
           spline_order: 0
-          # convert target volume to binary mask
+        # convert target volume to binary mask
         - name: ToTensor
           expand_dims: false
           dtype: long
@@ -131,15 +136,15 @@ loaders:
   val:
     # paths to the val datasets
     file_paths:
-      - VAL_DIR
+      - /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/val/dataset
 
     # SliceBuilder configuration, i.e. how to iterate over the input volume patch-by-patch
     slice_builder:
       name: FilterSliceBuilder
-      # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better)
-      patch_shape: [ 80, 170, 170 ]
+      # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better) #180^3 fits in 24GB VRAM, mixed precision may allow larger patches
+      patch_shape: [ 180,180,180 ]
       # train stride between patches
-      stride_shape: [ 80, 170, 170 ]
+      stride_shape: [ 90,90,90 ]
       # minimum volume of the labels in the patch
       threshold: 0.01
       # probability of accepting patches which do not fulfil the threshold criterion
