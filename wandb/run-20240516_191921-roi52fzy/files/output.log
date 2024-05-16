@@ -1,0 +1,250 @@
+Seed the RNG for all devices with 42
+2024-05-16 19:19:22,617 [MainThread] INFO TrainingSetup - Seed the RNG for all devices with 42
+2024-05-16 19:19:22,617 [MainThread] WARNING TrainingSetup - Using CuDNN deterministic setting. This may slow down the training!
+2024-05-16 19:19:22,763 [MainThread] INFO UNetTrainer - Number of learnable params 7288234
+2024-05-16 19:19:22,763 [MainThread] INFO Dataset - Creating training and validation set loaders...
+2024-05-16 19:19:22,772 [MainThread] INFO HDF5Dataset - Loading train set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset/3350_4000_8450_xyz_256_res1_s4_raw.h5...
+2024-05-16 19:19:22,773 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:19:22,776 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:19:22,791 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:19:22,791 [MainThread] INFO HDF5Dataset - Loading train set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset/layers_1.h5...
+2024-05-16 19:19:22,792 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:19:22,793 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:19:22,807 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:19:22,807 [MainThread] INFO HDF5Dataset - Loading val set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/val/dataset/layers_1.h5...
+2024-05-16 19:19:22,808 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:19:22,808 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:19:22,821 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:19:22,822 [MainThread] INFO Dataset - Number of workers for train/val dataloader: 8
+2024-05-16 19:19:22,822 [MainThread] INFO Dataset - Batch size for train/val loader: 1
+2024-05-16 19:19:23,078 [MainThread] INFO UNetTrainer - ResidualUNetSE3D(
+  (encoders): ModuleList(
+    (0): Encoder(
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(1, 32, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=32, out_features=32, bias=True)
+            (fc2): Linear(in_features=32, out_features=32, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(32, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (1): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(32, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=64, out_features=64, bias=True)
+            (fc2): Linear(in_features=64, out_features=64, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(64, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (2): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(64, 128, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=128, out_features=128, bias=True)
+            (fc2): Linear(in_features=128, out_features=128, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(128, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (3): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(128, 256, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 256, eps=1e-05, affine=True)
+          (conv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 256, eps=1e-05, affine=True)
+          (conv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=256, out_features=256, bias=True)
+            (fc2): Linear(in_features=256, out_features=256, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(256, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+  (decoders): ModuleList(
+    (0): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(256, 128, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=128, out_features=128, bias=True)
+            (fc2): Linear(in_features=128, out_features=128, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(128, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (1): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(128, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=64, out_features=64, bias=True)
+            (fc2): Linear(in_features=64, out_features=64, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(64, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (2): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(64, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=32, out_features=32, bias=True)
+            (fc2): Linear(in_features=32, out_features=32, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(32, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+  (final_conv): Conv3d(32, 3, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+  (final_activation): Softmax(dim=1)
+)
+2024-05-16 19:19:23,079 [MainThread] INFO UNetTrainer - eval_score_higher_is_better: True
+Traceback (most recent call last):
+  File "/home/james/anaconda3/envs/pytorch-3dunet-e/bin/train3dunet", line 33, in <module>
+    sys.exit(load_entry_point('pytorch3dunet', 'console_scripts', 'train3dunet')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/pytorch3dunet/train.py", line 37, in main
+    trainer.train_epoch(epoch)
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'UNetTrainer' object has no attribute 'train_epoch'

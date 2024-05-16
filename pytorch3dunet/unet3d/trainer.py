@@ -4,6 +4,7 @@ import torch.nn as nn
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.tensorboard import SummaryWriter
 from datetime import datetime
+import wandb
 
 from pytorch3dunet.datasets.utils import get_train_loaders
 from pytorch3dunet.unet3d.losses import get_loss_criterion
@@ -206,6 +207,10 @@ class UNetTrainer:
                 # save checkpoint
                 self._save_checkpoint(is_best)
 
+                wandb.log({
+                    'val_eval_score': eval_score,
+                })
+
             if self.num_iterations % self.log_after_iters == 0:
                 # compute eval criterion
                 if not self.skip_train_validation:
@@ -228,6 +233,15 @@ class UNetTrainer:
                 self._log_stats('train', train_losses.avg, train_eval_scores.avg)
                 # self._log_params()
                 self._log_images(input, target, output, 'train_')
+
+                # Log metrics to Weights and Biases
+                wandb.log({
+                    'train_loss': train_losses.avg,
+                    'train_eval_score': train_eval_scores.avg,
+                    'learning_rate': self.optimizer.param_groups[0]['lr'],
+                    'epoch': self.num_epochs,
+                    'iteration': self.num_iterations
+                })
 
             if self.should_stop():
                 return True

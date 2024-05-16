@@ -1,6 +1,7 @@
 import random
-
+import wandb
 import torch
+import json
 
 from pytorch3dunet.unet3d.config import load_config, copy_config
 from pytorch3dunet.unet3d.trainer import create_trainer
@@ -13,6 +14,27 @@ def main():
     # Load and log experiment configuration
     config, config_path = load_config()
     logger.info(config)
+
+    train_file_paths = config['loaders']['train']['file_paths']
+    patch_shape = config['loaders']['train']['slice_builder']['patch_shape']
+    transforms = config['loaders']['train']['transformer']
+
+    # Initialize Weights and Biases
+    wandb.init(project='tri-class-3dunet-vesuvius', config=config)
+
+    wandb.config.update({
+        'transformers': config['loaders']['train'].get('transformer', {}),
+        'patch_shape': config['loaders']['train']['slice_builder'].get('patch_shape', []),
+        'train_file_paths': config['loaders']['train'].get('file_paths', []),
+    }, allow_val_change=True)
+
+    config_filename = 'config.json'
+    with open(config_filename, 'w') as f:
+        json.dump(config, f, indent=4)
+
+    config_artifact = wandb.Artifact('experiment-config', type='config')
+    config_artifact.add_file(config_filename)
+    wandb.log_artifact(config_artifact)
 
     manual_seed = config.get('model').get('manual_seed', None)
 
@@ -31,6 +53,8 @@ def main():
     copy_config(config, config_path)
     # Start training
     trainer.fit()
+
+    wandb.finish()
 
 
 if __name__ == '__main__':

@@ -1,0 +1,505 @@
+Seed the RNG for all devices with 42
+2024-05-16 19:24:41,709 [MainThread] INFO TrainingSetup - Seed the RNG for all devices with 42
+2024-05-16 19:24:41,709 [MainThread] WARNING TrainingSetup - Using CuDNN deterministic setting. This may slow down the training!
+2024-05-16 19:24:41,848 [MainThread] INFO UNetTrainer - Number of learnable params 7288234
+2024-05-16 19:24:41,848 [MainThread] INFO Dataset - Creating training and validation set loaders...
+2024-05-16 19:24:41,858 [MainThread] INFO HDF5Dataset - Loading train set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset/3350_4000_8450_xyz_256_res1_s4_raw.h5...
+2024-05-16 19:24:41,859 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:24:41,862 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:24:41,876 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:24:41,876 [MainThread] INFO HDF5Dataset - Loading train set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset/layers_1.h5...
+2024-05-16 19:24:41,877 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:24:41,877 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:24:41,890 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:24:41,891 [MainThread] INFO HDF5Dataset - Loading val set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/val/dataset/layers_1.h5...
+2024-05-16 19:24:41,892 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:24:41,892 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:24:41,905 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:24:41,905 [MainThread] INFO Dataset - Number of workers for train/val dataloader: 8
+2024-05-16 19:24:41,905 [MainThread] INFO Dataset - Batch size for train/val loader: 1
+2024-05-16 19:24:42,152 [MainThread] INFO UNetTrainer - ResidualUNetSE3D(
+  (encoders): ModuleList(
+    (0): Encoder(
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(1, 32, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=32, out_features=32, bias=True)
+            (fc2): Linear(in_features=32, out_features=32, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(32, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (1): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(32, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=64, out_features=64, bias=True)
+            (fc2): Linear(in_features=64, out_features=64, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(64, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (2): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(64, 128, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=128, out_features=128, bias=True)
+            (fc2): Linear(in_features=128, out_features=128, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(128, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (3): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(128, 256, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 256, eps=1e-05, affine=True)
+          (conv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 256, eps=1e-05, affine=True)
+          (conv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=256, out_features=256, bias=True)
+            (fc2): Linear(in_features=256, out_features=256, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(256, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+  (decoders): ModuleList(
+    (0): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(256, 128, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=128, out_features=128, bias=True)
+            (fc2): Linear(in_features=128, out_features=128, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(128, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (1): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(128, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=64, out_features=64, bias=True)
+            (fc2): Linear(in_features=64, out_features=64, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(64, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (2): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(64, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=32, out_features=32, bias=True)
+            (fc2): Linear(in_features=32, out_features=32, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(32, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+  (final_conv): Conv3d(32, 3, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+  (final_activation): Softmax(dim=1)
+)
+2024-05-16 19:24:42,152 [MainThread] INFO UNetTrainer - eval_score_higher_is_better: True
+2024-05-16 19:24:42,547 [MainThread] INFO UNetTrainer - Training iteration [1/6000000]. Epoch [0/49]
+/home/james/anaconda3/envs/pytorch-3dunet-e/lib/python3.12/site-packages/torch/nn/modules/conv.py:605: UserWarning: Plan failed with a cudnnException: CUDNN_BACKEND_EXECUTION_PLAN_DESCRIPTOR: cudnnFinalize Descriptor Failed cudnn_status: CUDNN_STATUS_NOT_SUPPORTED (Triggered internally at /opt/conda/conda-bld/pytorch_1712608847532/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:919.)
+  return F.conv3d(
+2024-05-16 19:24:43,640 [MainThread] INFO UNetTrainer - Training iteration [2/6000000]. Epoch [0/49]
+2024-05-16 19:24:43,826 [MainThread] INFO UNetTrainer - Training iteration [3/6000000]. Epoch [0/49]
+2024-05-16 19:24:44,375 [MainThread] INFO UNetTrainer - Training iteration [4/6000000]. Epoch [0/49]
+2024-05-16 19:24:44,923 [MainThread] INFO UNetTrainer - Training iteration [5/6000000]. Epoch [0/49]
+2024-05-16 19:24:45,473 [MainThread] INFO UNetTrainer - Training iteration [6/6000000]. Epoch [0/49]
+2024-05-16 19:24:46,022 [MainThread] INFO UNetTrainer - Training iteration [7/6000000]. Epoch [0/49]
+2024-05-16 19:24:46,572 [MainThread] INFO UNetTrainer - Training iteration [8/6000000]. Epoch [0/49]
+2024-05-16 19:24:47,121 [MainThread] INFO UNetTrainer - Training iteration [9/6000000]. Epoch [0/49]
+2024-05-16 19:24:47,671 [MainThread] INFO UNetTrainer - Training iteration [10/6000000]. Epoch [0/49]
+2024-05-16 19:24:48,220 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:24:48,476 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:24:48,869 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:24:49,072 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:24:49,275 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:24:49,478 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:24:49,681 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:24:49,884 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:24:50,087 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:24:50,312 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0505490452051163. Evaluation score: 0.3509919233620167
+2024-05-16 19:24:50,313 [MainThread] INFO UNetTrainer - Saving new best evaluation metric: 0.3509919233620167
+2024-05-16 19:24:50,314 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:24:50,474 [MainThread] INFO UNetTrainer - Training stats. Loss: 1.0604162633419036. Evaluation score: 0.5233709812164307
+2024-05-16 19:24:50,539 [MainThread] INFO UNetTrainer - Training iteration [11/6000000]. Epoch [0/49]
+2024-05-16 19:24:50,727 [MainThread] INFO UNetTrainer - Training iteration [12/6000000]. Epoch [0/49]
+2024-05-16 19:24:51,276 [MainThread] INFO UNetTrainer - Training iteration [13/6000000]. Epoch [0/49]
+2024-05-16 19:24:51,826 [MainThread] INFO UNetTrainer - Training iteration [14/6000000]. Epoch [0/49]
+2024-05-16 19:24:52,376 [MainThread] INFO UNetTrainer - Training iteration [15/6000000]. Epoch [0/49]
+2024-05-16 19:24:52,926 [MainThread] INFO UNetTrainer - Training iteration [16/6000000]. Epoch [0/49]
+2024-05-16 19:24:53,997 [MainThread] INFO UNetTrainer - Training iteration [17/6000000]. Epoch [1/49]
+2024-05-16 19:24:54,190 [MainThread] INFO UNetTrainer - Training iteration [18/6000000]. Epoch [1/49]
+2024-05-16 19:24:54,737 [MainThread] INFO UNetTrainer - Training iteration [19/6000000]. Epoch [1/49]
+2024-05-16 19:24:55,288 [MainThread] INFO UNetTrainer - Training iteration [20/6000000]. Epoch [1/49]
+2024-05-16 19:24:55,839 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:24:56,081 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:24:56,463 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:24:56,666 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:24:56,870 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:24:57,073 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:24:57,277 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:24:57,480 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:24:57,683 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:24:57,909 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.043862745165825. Evaluation score: 0.3177163526415825
+2024-05-16 19:24:57,910 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:24:58,015 [MainThread] INFO UNetTrainer - Training stats. Loss: 1.002857282757759. Evaluation score: 0.37475064396858215
+2024-05-16 19:24:58,078 [MainThread] INFO UNetTrainer - Training iteration [21/6000000]. Epoch [1/49]
+2024-05-16 19:24:58,266 [MainThread] INFO UNetTrainer - Training iteration [22/6000000]. Epoch [1/49]
+2024-05-16 19:24:58,816 [MainThread] INFO UNetTrainer - Training iteration [23/6000000]. Epoch [1/49]
+2024-05-16 19:24:59,366 [MainThread] INFO UNetTrainer - Training iteration [24/6000000]. Epoch [1/49]
+2024-05-16 19:24:59,917 [MainThread] INFO UNetTrainer - Training iteration [25/6000000]. Epoch [1/49]
+2024-05-16 19:25:00,467 [MainThread] INFO UNetTrainer - Training iteration [26/6000000]. Epoch [1/49]
+2024-05-16 19:25:01,018 [MainThread] INFO UNetTrainer - Training iteration [27/6000000]. Epoch [1/49]
+2024-05-16 19:25:01,568 [MainThread] INFO UNetTrainer - Training iteration [28/6000000]. Epoch [1/49]
+2024-05-16 19:25:02,118 [MainThread] INFO UNetTrainer - Training iteration [29/6000000]. Epoch [1/49]
+2024-05-16 19:25:02,669 [MainThread] INFO UNetTrainer - Training iteration [30/6000000]. Epoch [1/49]
+2024-05-16 19:25:03,219 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:03,470 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:03,841 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:04,045 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:04,249 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:04,452 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:04,656 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:04,859 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:05,063 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:05,291 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0438743382692337. Evaluation score: 0.3002209570258856
+2024-05-16 19:25:05,292 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:05,398 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9758609022412982. Evaluation score: 0.3905457556247711
+2024-05-16 19:25:05,460 [MainThread] INFO UNetTrainer - Training iteration [31/6000000]. Epoch [1/49]
+2024-05-16 19:25:05,649 [MainThread] INFO UNetTrainer - Training iteration [32/6000000]. Epoch [1/49]
+2024-05-16 19:25:06,717 [MainThread] INFO UNetTrainer - Training iteration [33/6000000]. Epoch [2/49]
+2024-05-16 19:25:06,911 [MainThread] INFO UNetTrainer - Training iteration [34/6000000]. Epoch [2/49]
+2024-05-16 19:25:07,459 [MainThread] INFO UNetTrainer - Training iteration [35/6000000]. Epoch [2/49]
+2024-05-16 19:25:08,009 [MainThread] INFO UNetTrainer - Training iteration [36/6000000]. Epoch [2/49]
+2024-05-16 19:25:08,559 [MainThread] INFO UNetTrainer - Training iteration [37/6000000]. Epoch [2/49]
+2024-05-16 19:25:09,109 [MainThread] INFO UNetTrainer - Training iteration [38/6000000]. Epoch [2/49]
+2024-05-16 19:25:09,660 [MainThread] INFO UNetTrainer - Training iteration [39/6000000]. Epoch [2/49]
+2024-05-16 19:25:10,210 [MainThread] INFO UNetTrainer - Training iteration [40/6000000]. Epoch [2/49]
+2024-05-16 19:25:10,761 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:10,983 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:11,384 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:11,588 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:11,792 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:11,996 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:12,199 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:12,403 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:12,607 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:12,835 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.1042398512363434. Evaluation score: 0.2144214790314436
+2024-05-16 19:25:12,836 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:12,941 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9552968591451645. Evaluation score: 0.3762676417827606
+2024-05-16 19:25:13,001 [MainThread] INFO UNetTrainer - Training iteration [41/6000000]. Epoch [2/49]
+2024-05-16 19:25:13,190 [MainThread] INFO UNetTrainer - Training iteration [42/6000000]. Epoch [2/49]
+2024-05-16 19:25:13,740 [MainThread] INFO UNetTrainer - Training iteration [43/6000000]. Epoch [2/49]
+2024-05-16 19:25:14,291 [MainThread] INFO UNetTrainer - Training iteration [44/6000000]. Epoch [2/49]
+2024-05-16 19:25:14,841 [MainThread] INFO UNetTrainer - Training iteration [45/6000000]. Epoch [2/49]
+2024-05-16 19:25:15,392 [MainThread] INFO UNetTrainer - Training iteration [46/6000000]. Epoch [2/49]
+2024-05-16 19:25:15,943 [MainThread] INFO UNetTrainer - Training iteration [47/6000000]. Epoch [2/49]
+2024-05-16 19:25:16,493 [MainThread] INFO UNetTrainer - Training iteration [48/6000000]. Epoch [2/49]
+2024-05-16 19:25:17,537 [MainThread] INFO UNetTrainer - Training iteration [49/6000000]. Epoch [3/49]
+2024-05-16 19:25:17,733 [MainThread] INFO UNetTrainer - Training iteration [50/6000000]. Epoch [3/49]
+2024-05-16 19:25:18,279 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:18,521 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:18,901 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:19,105 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:19,309 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:19,513 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:19,716 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:19,920 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:20,124 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:20,350 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0779887437820435. Evaluation score: 0.246500875800848
+2024-05-16 19:25:20,351 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:20,454 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9837172031402588. Evaluation score: 0.38609778881073
+2024-05-16 19:25:20,515 [MainThread] INFO UNetTrainer - Training iteration [51/6000000]. Epoch [3/49]
+2024-05-16 19:25:20,704 [MainThread] INFO UNetTrainer - Training iteration [52/6000000]. Epoch [3/49]
+2024-05-16 19:25:21,254 [MainThread] INFO UNetTrainer - Training iteration [53/6000000]. Epoch [3/49]
+2024-05-16 19:25:21,804 [MainThread] INFO UNetTrainer - Training iteration [54/6000000]. Epoch [3/49]
+2024-05-16 19:25:22,355 [MainThread] INFO UNetTrainer - Training iteration [55/6000000]. Epoch [3/49]
+2024-05-16 19:25:22,906 [MainThread] INFO UNetTrainer - Training iteration [56/6000000]. Epoch [3/49]
+2024-05-16 19:25:23,456 [MainThread] INFO UNetTrainer - Training iteration [57/6000000]. Epoch [3/49]
+2024-05-16 19:25:24,007 [MainThread] INFO UNetTrainer - Training iteration [58/6000000]. Epoch [3/49]
+2024-05-16 19:25:24,557 [MainThread] INFO UNetTrainer - Training iteration [59/6000000]. Epoch [3/49]
+2024-05-16 19:25:25,108 [MainThread] INFO UNetTrainer - Training iteration [60/6000000]. Epoch [3/49]
+2024-05-16 19:25:25,659 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:25,931 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:26,281 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:26,485 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:26,689 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:26,893 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:27,097 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:27,301 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:27,505 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:27,732 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0657721906900406. Evaluation score: 0.27854833006858826
+2024-05-16 19:25:27,733 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:27,839 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9598656197388967. Evaluation score: 0.44123733043670654
+2024-05-16 19:25:27,899 [MainThread] INFO UNetTrainer - Training iteration [61/6000000]. Epoch [3/49]
+2024-05-16 19:25:28,088 [MainThread] INFO UNetTrainer - Training iteration [62/6000000]. Epoch [3/49]
+2024-05-16 19:25:28,638 [MainThread] INFO UNetTrainer - Training iteration [63/6000000]. Epoch [3/49]
+2024-05-16 19:25:29,188 [MainThread] INFO UNetTrainer - Training iteration [64/6000000]. Epoch [3/49]
+2024-05-16 19:25:30,133 [MainThread] INFO UNetTrainer - Training iteration [65/6000000]. Epoch [4/49]
+2024-05-16 19:25:30,327 [MainThread] INFO UNetTrainer - Training iteration [66/6000000]. Epoch [4/49]
+2024-05-16 19:25:30,875 [MainThread] INFO UNetTrainer - Training iteration [67/6000000]. Epoch [4/49]
+2024-05-16 19:25:31,425 [MainThread] INFO UNetTrainer - Training iteration [68/6000000]. Epoch [4/49]
+2024-05-16 19:25:31,975 [MainThread] INFO UNetTrainer - Training iteration [69/6000000]. Epoch [4/49]
+2024-05-16 19:25:32,526 [MainThread] INFO UNetTrainer - Training iteration [70/6000000]. Epoch [4/49]
+2024-05-16 19:25:33,076 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:33,328 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:33,698 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:33,902 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:34,106 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:34,310 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:34,513 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:34,717 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:34,921 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:35,149 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0598129332065582. Evaluation score: 0.28751644492149353
+2024-05-16 19:25:35,151 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:35,254 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8930180072784424. Evaluation score: 0.4141547381877899
+2024-05-16 19:25:35,315 [MainThread] INFO UNetTrainer - Training iteration [71/6000000]. Epoch [4/49]
+2024-05-16 19:25:35,504 [MainThread] INFO UNetTrainer - Training iteration [72/6000000]. Epoch [4/49]
+2024-05-16 19:25:36,054 [MainThread] INFO UNetTrainer - Training iteration [73/6000000]. Epoch [4/49]
+2024-05-16 19:25:36,604 [MainThread] INFO UNetTrainer - Training iteration [74/6000000]. Epoch [4/49]
+2024-05-16 19:25:37,155 [MainThread] INFO UNetTrainer - Training iteration [75/6000000]. Epoch [4/49]
+2024-05-16 19:25:37,705 [MainThread] INFO UNetTrainer - Training iteration [76/6000000]. Epoch [4/49]
+2024-05-16 19:25:38,256 [MainThread] INFO UNetTrainer - Training iteration [77/6000000]. Epoch [4/49]
+2024-05-16 19:25:38,806 [MainThread] INFO UNetTrainer - Training iteration [78/6000000]. Epoch [4/49]
+2024-05-16 19:25:39,357 [MainThread] INFO UNetTrainer - Training iteration [79/6000000]. Epoch [4/49]
+2024-05-16 19:25:39,907 [MainThread] INFO UNetTrainer - Training iteration [80/6000000]. Epoch [4/49]
+2024-05-16 19:25:40,458 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:40,718 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:41,082 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:41,286 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:41,490 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:41,694 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:41,898 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:42,102 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:42,306 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:42,533 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0733784884214401. Evaluation score: 0.2781098987907171
+2024-05-16 19:25:42,534 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:42,637 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9517842121422291. Evaluation score: 0.4099990576505661
+2024-05-16 19:25:43,199 [MainThread] INFO UNetTrainer - Training iteration [81/6000000]. Epoch [5/49]
+2024-05-16 19:25:43,397 [MainThread] INFO UNetTrainer - Training iteration [82/6000000]. Epoch [5/49]
+2024-05-16 19:25:43,941 [MainThread] INFO UNetTrainer - Training iteration [83/6000000]. Epoch [5/49]
+2024-05-16 19:25:44,491 [MainThread] INFO UNetTrainer - Training iteration [84/6000000]. Epoch [5/49]
+2024-05-16 19:25:45,042 [MainThread] INFO UNetTrainer - Training iteration [85/6000000]. Epoch [5/49]
+2024-05-16 19:25:45,593 [MainThread] INFO UNetTrainer - Training iteration [86/6000000]. Epoch [5/49]
+2024-05-16 19:25:46,143 [MainThread] INFO UNetTrainer - Training iteration [87/6000000]. Epoch [5/49]
+2024-05-16 19:25:46,694 [MainThread] INFO UNetTrainer - Training iteration [88/6000000]. Epoch [5/49]
+2024-05-16 19:25:47,245 [MainThread] INFO UNetTrainer - Training iteration [89/6000000]. Epoch [5/49]
+2024-05-16 19:25:47,796 [MainThread] INFO UNetTrainer - Training iteration [90/6000000]. Epoch [5/49]
+2024-05-16 19:25:48,347 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:48,629 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:48,969 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:49,174 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:49,377 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:49,581 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:49,785 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:49,989 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:50,193 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:50,422 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0735351890325546. Evaluation score: 0.2622208334505558
+2024-05-16 19:25:50,423 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:50,529 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.927949321269989. Evaluation score: 0.27318450808525085
+2024-05-16 19:25:50,591 [MainThread] INFO UNetTrainer - Training iteration [91/6000000]. Epoch [5/49]
+2024-05-16 19:25:50,780 [MainThread] INFO UNetTrainer - Training iteration [92/6000000]. Epoch [5/49]
+2024-05-16 19:25:51,331 [MainThread] INFO UNetTrainer - Training iteration [93/6000000]. Epoch [5/49]
+2024-05-16 19:25:51,881 [MainThread] INFO UNetTrainer - Training iteration [94/6000000]. Epoch [5/49]
+2024-05-16 19:25:52,432 [MainThread] INFO UNetTrainer - Training iteration [95/6000000]. Epoch [5/49]
+2024-05-16 19:25:52,982 [MainThread] INFO UNetTrainer - Training iteration [96/6000000]. Epoch [5/49]
+2024-05-16 19:25:54,074 [MainThread] INFO UNetTrainer - Training iteration [97/6000000]. Epoch [6/49]
+2024-05-16 19:25:54,266 [MainThread] INFO UNetTrainer - Training iteration [98/6000000]. Epoch [6/49]
+2024-05-16 19:25:54,815 [MainThread] INFO UNetTrainer - Training iteration [99/6000000]. Epoch [6/49]
+2024-05-16 19:25:55,365 [MainThread] INFO UNetTrainer - Training iteration [100/6000000]. Epoch [6/49]
+2024-05-16 19:25:55,915 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:25:56,187 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:25:56,538 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:25:56,741 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:25:56,945 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:25:57,149 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:25:57,352 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:25:57,556 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:25:57,760 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:25:57,986 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0788437128067017. Evaluation score: 0.2792502138763666
+2024-05-16 19:25:57,987 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:25:58,087 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8881841152906418. Evaluation score: 0.3990005552768707
+2024-05-16 19:25:58,148 [MainThread] INFO UNetTrainer - Training iteration [101/6000000]. Epoch [6/49]
+2024-05-16 19:25:58,336 [MainThread] INFO UNetTrainer - Training iteration [102/6000000]. Epoch [6/49]
+2024-05-16 19:25:58,886 [MainThread] INFO UNetTrainer - Training iteration [103/6000000]. Epoch [6/49]
+2024-05-16 19:25:59,437 [MainThread] INFO UNetTrainer - Training iteration [104/6000000]. Epoch [6/49]
+2024-05-16 19:25:59,988 [MainThread] INFO UNetTrainer - Training iteration [105/6000000]. Epoch [6/49]
+2024-05-16 19:26:00,539 [MainThread] INFO UNetTrainer - Training iteration [106/6000000]. Epoch [6/49]
+2024-05-16 19:26:01,090 [MainThread] INFO UNetTrainer - Training iteration [107/6000000]. Epoch [6/49]
+2024-05-16 19:26:01,640 [MainThread] INFO UNetTrainer - Training iteration [108/6000000]. Epoch [6/49]
+2024-05-16 19:26:02,191 [MainThread] INFO UNetTrainer - Training iteration [109/6000000]. Epoch [6/49]
+2024-05-16 19:26:02,741 [MainThread] INFO UNetTrainer - Training iteration [110/6000000]. Epoch [6/49]
+2024-05-16 19:26:03,292 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:26:03,521 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:26:03,917 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:26:04,121 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:26:04,324 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:26:04,528 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:26:04,732 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:26:04,935 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:26:05,139 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:26:05,366 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0714551955461502. Evaluation score: 0.28679080307483673
+2024-05-16 19:26:05,367 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:26:05,469 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9228186011314392. Evaluation score: 0.32271183282136917
+2024-05-16 19:26:05,531 [MainThread] INFO UNetTrainer - Training iteration [111/6000000]. Epoch [6/49]
+2024-05-16 19:26:05,720 [MainThread] INFO UNetTrainer - Training iteration [112/6000000]. Epoch [6/49]
+2024-05-16 19:26:06,735 [MainThread] INFO UNetTrainer - Training iteration [113/6000000]. Epoch [7/49]
+2024-05-16 19:26:06,937 [MainThread] INFO UNetTrainer - Training iteration [114/6000000]. Epoch [7/49]
+Traceback (most recent call last):
+  File "/home/james/anaconda3/envs/pytorch-3dunet-e/bin/train3dunet", line 33, in <module>
+    sys.exit(load_entry_point('pytorch3dunet', 'console_scripts', 'train3dunet')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/pytorch3dunet/train.py", line 36, in main
+    trainer.fit()
+  File "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/pytorch3dunet/unet3d/trainer.py", line 152, in fit
+    should_terminate = self.train()
+                       ^^^^^^^^^^^^
+  File "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/pytorch3dunet/unet3d/trainer.py", line 181, in train
+    train_losses.update(loss.item(), self._batch_size(input))
+                        ^^^^^^^^^^^
+KeyboardInterrupt
+2024-05-16 19:26:07,484 [MainThread] INFO UNetTrainer - Training iteration [115/6000000]. Epoch [7/49]

@@ -1,0 +1,1152 @@
+Seed the RNG for all devices with 42
+2024-05-16 19:30:02,802 [MainThread] INFO TrainingSetup - Seed the RNG for all devices with 42
+2024-05-16 19:30:02,802 [MainThread] WARNING TrainingSetup - Using CuDNN deterministic setting. This may slow down the training!
+2024-05-16 19:30:02,951 [MainThread] INFO UNetTrainer - Number of learnable params 7288234
+2024-05-16 19:30:02,951 [MainThread] INFO Dataset - Creating training and validation set loaders...
+2024-05-16 19:30:02,961 [MainThread] INFO HDF5Dataset - Loading train set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset/3350_4000_8450_xyz_256_res1_s4_raw.h5...
+2024-05-16 19:30:02,962 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:30:02,966 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:30:02,980 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:30:02,980 [MainThread] INFO HDF5Dataset - Loading train set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset/layers_1.h5...
+2024-05-16 19:30:02,981 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:30:02,981 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:30:02,994 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:30:02,995 [MainThread] INFO HDF5Dataset - Loading val set from: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/val/dataset/layers_1.h5...
+2024-05-16 19:30:02,995 [MainThread] INFO Dataset - Slice builder config: {'name': 'FilterSliceBuilder', 'patch_shape': [180, 180, 180], 'stride_shape': [76, 76, 76], 'threshold': 0.01, 'slack_acceptance': 0.01}
+2024-05-16 19:30:02,996 [MainThread] INFO Dataset - Filtering slices...
+2024-05-16 19:30:03,009 [MainThread] INFO HDF5Dataset - Number of patches: 8
+2024-05-16 19:30:03,009 [MainThread] INFO Dataset - Number of workers for train/val dataloader: 8
+2024-05-16 19:30:03,009 [MainThread] INFO Dataset - Batch size for train/val loader: 1
+2024-05-16 19:30:03,257 [MainThread] INFO UNetTrainer - ResidualUNetSE3D(
+  (encoders): ModuleList(
+    (0): Encoder(
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(1, 32, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=32, out_features=32, bias=True)
+            (fc2): Linear(in_features=32, out_features=32, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(32, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (1): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(32, 64, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=64, out_features=64, bias=True)
+            (fc2): Linear(in_features=64, out_features=64, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(64, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (2): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(64, 128, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=128, out_features=128, bias=True)
+            (fc2): Linear(in_features=128, out_features=128, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(128, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (3): Encoder(
+      (pooling): MaxPool3d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+      (basic_module): ResNetBlockSE(
+        (conv1): Conv3d(128, 256, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 256, eps=1e-05, affine=True)
+          (conv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 256, eps=1e-05, affine=True)
+          (conv): Conv3d(256, 256, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=256, out_features=256, bias=True)
+            (fc2): Linear(in_features=256, out_features=256, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(256, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+  (decoders): ModuleList(
+    (0): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(256, 128, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 128, eps=1e-05, affine=True)
+          (conv): Conv3d(128, 128, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=128, out_features=128, bias=True)
+            (fc2): Linear(in_features=128, out_features=128, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(128, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (1): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(128, 64, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 64, eps=1e-05, affine=True)
+          (conv): Conv3d(64, 64, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=64, out_features=64, bias=True)
+            (fc2): Linear(in_features=64, out_features=64, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(64, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+    (2): Decoder(
+      (upsampling): TransposeConvUpsampling(
+        (upsample): Upsample(
+          (conv_transposed): ConvTranspose3d(64, 32, kernel_size=(3, 3, 3), stride=(2, 2, 2), padding=(1, 1, 1), bias=False)
+        )
+      )
+      (basic_module): ResNetBlockSE(
+        (conv1): Identity()
+        (conv2): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+          (ReLU): ReLU(inplace=True)
+        )
+        (conv3): SingleConv(
+          (groupnorm): GroupNorm(8, 32, eps=1e-05, affine=True)
+          (conv): Conv3d(32, 32, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1), bias=False)
+        )
+        (non_linearity): ReLU(inplace=True)
+        (se_module): ChannelSpatialSELayer3D(
+          (cSE): ChannelSELayer3D(
+            (avg_pool): AdaptiveAvgPool3d(output_size=1)
+            (fc1): Linear(in_features=32, out_features=32, bias=True)
+            (fc2): Linear(in_features=32, out_features=32, bias=True)
+            (relu): ReLU()
+            (sigmoid): Sigmoid()
+          )
+          (sSE): SpatialSELayer3D(
+            (conv): Conv3d(32, 1, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+            (sigmoid): Sigmoid()
+          )
+        )
+      )
+    )
+  )
+  (final_conv): Conv3d(32, 3, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+  (final_activation): Softmax(dim=1)
+)
+2024-05-16 19:30:03,258 [MainThread] INFO UNetTrainer - eval_score_higher_is_better: True
+2024-05-16 19:30:03,706 [MainThread] INFO UNetTrainer - Training iteration [1/6000000]. Epoch [0/49]
+/home/james/anaconda3/envs/pytorch-3dunet-e/lib/python3.12/site-packages/torch/nn/modules/conv.py:605: UserWarning: Plan failed with a cudnnException: CUDNN_BACKEND_EXECUTION_PLAN_DESCRIPTOR: cudnnFinalize Descriptor Failed cudnn_status: CUDNN_STATUS_NOT_SUPPORTED (Triggered internally at /opt/conda/conda-bld/pytorch_1712608847532/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:919.)
+  return F.conv3d(
+2024-05-16 19:30:04,763 [MainThread] INFO UNetTrainer - Training iteration [2/6000000]. Epoch [0/49]
+2024-05-16 19:30:04,950 [MainThread] INFO UNetTrainer - Training iteration [3/6000000]. Epoch [0/49]
+2024-05-16 19:30:05,499 [MainThread] INFO UNetTrainer - Training iteration [4/6000000]. Epoch [0/49]
+2024-05-16 19:30:06,048 [MainThread] INFO UNetTrainer - Training iteration [5/6000000]. Epoch [0/49]
+2024-05-16 19:30:06,598 [MainThread] INFO UNetTrainer - Training iteration [6/6000000]. Epoch [0/49]
+2024-05-16 19:30:07,148 [MainThread] INFO UNetTrainer - Training iteration [7/6000000]. Epoch [0/49]
+2024-05-16 19:30:07,698 [MainThread] INFO UNetTrainer - Training iteration [8/6000000]. Epoch [0/49]
+2024-05-16 19:30:08,248 [MainThread] INFO UNetTrainer - Training iteration [9/6000000]. Epoch [0/49]
+2024-05-16 19:30:08,798 [MainThread] INFO UNetTrainer - Training iteration [10/6000000]. Epoch [0/49]
+2024-05-16 19:30:09,348 [MainThread] INFO UNetTrainer - Training iteration [11/6000000]. Epoch [0/49]
+2024-05-16 19:30:09,898 [MainThread] INFO UNetTrainer - Training iteration [12/6000000]. Epoch [0/49]
+2024-05-16 19:30:10,448 [MainThread] INFO UNetTrainer - Training iteration [13/6000000]. Epoch [0/49]
+2024-05-16 19:30:10,998 [MainThread] INFO UNetTrainer - Training iteration [14/6000000]. Epoch [0/49]
+2024-05-16 19:30:11,548 [MainThread] INFO UNetTrainer - Training iteration [15/6000000]. Epoch [0/49]
+2024-05-16 19:30:12,097 [MainThread] INFO UNetTrainer - Training iteration [16/6000000]. Epoch [0/49]
+2024-05-16 19:30:13,081 [MainThread] INFO UNetTrainer - Training iteration [17/6000000]. Epoch [1/49]
+2024-05-16 19:30:13,274 [MainThread] INFO UNetTrainer - Training iteration [18/6000000]. Epoch [1/49]
+2024-05-16 19:30:13,822 [MainThread] INFO UNetTrainer - Training iteration [19/6000000]. Epoch [1/49]
+2024-05-16 19:30:14,372 [MainThread] INFO UNetTrainer - Training iteration [20/6000000]. Epoch [1/49]
+2024-05-16 19:30:14,923 [MainThread] INFO UNetTrainer - Training iteration [21/6000000]. Epoch [1/49]
+2024-05-16 19:30:15,472 [MainThread] INFO UNetTrainer - Training iteration [22/6000000]. Epoch [1/49]
+2024-05-16 19:30:16,023 [MainThread] INFO UNetTrainer - Training iteration [23/6000000]. Epoch [1/49]
+2024-05-16 19:30:16,573 [MainThread] INFO UNetTrainer - Training iteration [24/6000000]. Epoch [1/49]
+2024-05-16 19:30:17,124 [MainThread] INFO UNetTrainer - Training iteration [25/6000000]. Epoch [1/49]
+2024-05-16 19:30:17,674 [MainThread] INFO UNetTrainer - Training iteration [26/6000000]. Epoch [1/49]
+2024-05-16 19:30:18,224 [MainThread] INFO UNetTrainer - Training iteration [27/6000000]. Epoch [1/49]
+2024-05-16 19:30:18,775 [MainThread] INFO UNetTrainer - Training iteration [28/6000000]. Epoch [1/49]
+2024-05-16 19:30:19,325 [MainThread] INFO UNetTrainer - Training iteration [29/6000000]. Epoch [1/49]
+2024-05-16 19:30:19,875 [MainThread] INFO UNetTrainer - Training iteration [30/6000000]. Epoch [1/49]
+2024-05-16 19:30:20,426 [MainThread] INFO UNetTrainer - Training iteration [31/6000000]. Epoch [1/49]
+2024-05-16 19:30:20,976 [MainThread] INFO UNetTrainer - Training iteration [32/6000000]. Epoch [1/49]
+2024-05-16 19:30:21,941 [MainThread] INFO UNetTrainer - Training iteration [33/6000000]. Epoch [2/49]
+2024-05-16 19:30:22,139 [MainThread] INFO UNetTrainer - Training iteration [34/6000000]. Epoch [2/49]
+2024-05-16 19:30:22,687 [MainThread] INFO UNetTrainer - Training iteration [35/6000000]. Epoch [2/49]
+2024-05-16 19:30:23,237 [MainThread] INFO UNetTrainer - Training iteration [36/6000000]. Epoch [2/49]
+2024-05-16 19:30:23,785 [MainThread] INFO UNetTrainer - Training iteration [37/6000000]. Epoch [2/49]
+2024-05-16 19:30:24,334 [MainThread] INFO UNetTrainer - Training iteration [38/6000000]. Epoch [2/49]
+2024-05-16 19:30:24,884 [MainThread] INFO UNetTrainer - Training iteration [39/6000000]. Epoch [2/49]
+2024-05-16 19:30:25,435 [MainThread] INFO UNetTrainer - Training iteration [40/6000000]. Epoch [2/49]
+2024-05-16 19:30:25,985 [MainThread] INFO UNetTrainer - Training iteration [41/6000000]. Epoch [2/49]
+2024-05-16 19:30:26,536 [MainThread] INFO UNetTrainer - Training iteration [42/6000000]. Epoch [2/49]
+2024-05-16 19:30:27,086 [MainThread] INFO UNetTrainer - Training iteration [43/6000000]. Epoch [2/49]
+2024-05-16 19:30:27,637 [MainThread] INFO UNetTrainer - Training iteration [44/6000000]. Epoch [2/49]
+2024-05-16 19:30:28,187 [MainThread] INFO UNetTrainer - Training iteration [45/6000000]. Epoch [2/49]
+2024-05-16 19:30:28,738 [MainThread] INFO UNetTrainer - Training iteration [46/6000000]. Epoch [2/49]
+2024-05-16 19:30:29,288 [MainThread] INFO UNetTrainer - Training iteration [47/6000000]. Epoch [2/49]
+2024-05-16 19:30:29,838 [MainThread] INFO UNetTrainer - Training iteration [48/6000000]. Epoch [2/49]
+2024-05-16 19:30:30,820 [MainThread] INFO UNetTrainer - Training iteration [49/6000000]. Epoch [3/49]
+2024-05-16 19:30:31,020 [MainThread] INFO UNetTrainer - Training iteration [50/6000000]. Epoch [3/49]
+2024-05-16 19:30:31,946 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9922545254230499. Evaluation score: 0.23786711692810059
+2024-05-16 19:30:32,022 [MainThread] INFO UNetTrainer - Training iteration [51/6000000]. Epoch [3/49]
+2024-05-16 19:30:32,215 [MainThread] INFO UNetTrainer - Training iteration [52/6000000]. Epoch [3/49]
+2024-05-16 19:30:32,766 [MainThread] INFO UNetTrainer - Training iteration [53/6000000]. Epoch [3/49]
+2024-05-16 19:30:33,316 [MainThread] INFO UNetTrainer - Training iteration [54/6000000]. Epoch [3/49]
+2024-05-16 19:30:33,864 [MainThread] INFO UNetTrainer - Training iteration [55/6000000]. Epoch [3/49]
+2024-05-16 19:30:34,413 [MainThread] INFO UNetTrainer - Training iteration [56/6000000]. Epoch [3/49]
+2024-05-16 19:30:34,965 [MainThread] INFO UNetTrainer - Training iteration [57/6000000]. Epoch [3/49]
+2024-05-16 19:30:35,516 [MainThread] INFO UNetTrainer - Training iteration [58/6000000]. Epoch [3/49]
+2024-05-16 19:30:36,066 [MainThread] INFO UNetTrainer - Training iteration [59/6000000]. Epoch [3/49]
+2024-05-16 19:30:36,617 [MainThread] INFO UNetTrainer - Training iteration [60/6000000]. Epoch [3/49]
+2024-05-16 19:30:37,169 [MainThread] INFO UNetTrainer - Training iteration [61/6000000]. Epoch [3/49]
+2024-05-16 19:30:37,720 [MainThread] INFO UNetTrainer - Training iteration [62/6000000]. Epoch [3/49]
+2024-05-16 19:30:38,271 [MainThread] INFO UNetTrainer - Training iteration [63/6000000]. Epoch [3/49]
+2024-05-16 19:30:38,822 [MainThread] INFO UNetTrainer - Training iteration [64/6000000]. Epoch [3/49]
+2024-05-16 19:30:39,804 [MainThread] INFO UNetTrainer - Training iteration [65/6000000]. Epoch [4/49]
+2024-05-16 19:30:40,000 [MainThread] INFO UNetTrainer - Training iteration [66/6000000]. Epoch [4/49]
+2024-05-16 19:30:40,548 [MainThread] INFO UNetTrainer - Training iteration [67/6000000]. Epoch [4/49]
+2024-05-16 19:30:41,099 [MainThread] INFO UNetTrainer - Training iteration [68/6000000]. Epoch [4/49]
+2024-05-16 19:30:41,650 [MainThread] INFO UNetTrainer - Training iteration [69/6000000]. Epoch [4/49]
+2024-05-16 19:30:42,200 [MainThread] INFO UNetTrainer - Training iteration [70/6000000]. Epoch [4/49]
+2024-05-16 19:30:42,752 [MainThread] INFO UNetTrainer - Training iteration [71/6000000]. Epoch [4/49]
+2024-05-16 19:30:43,302 [MainThread] INFO UNetTrainer - Training iteration [72/6000000]. Epoch [4/49]
+2024-05-16 19:30:43,853 [MainThread] INFO UNetTrainer - Training iteration [73/6000000]. Epoch [4/49]
+2024-05-16 19:30:44,404 [MainThread] INFO UNetTrainer - Training iteration [74/6000000]. Epoch [4/49]
+2024-05-16 19:30:44,957 [MainThread] INFO UNetTrainer - Training iteration [75/6000000]. Epoch [4/49]
+2024-05-16 19:30:45,506 [MainThread] INFO UNetTrainer - Training iteration [76/6000000]. Epoch [4/49]
+2024-05-16 19:30:46,057 [MainThread] INFO UNetTrainer - Training iteration [77/6000000]. Epoch [4/49]
+2024-05-16 19:30:46,608 [MainThread] INFO UNetTrainer - Training iteration [78/6000000]. Epoch [4/49]
+2024-05-16 19:30:47,159 [MainThread] INFO UNetTrainer - Training iteration [79/6000000]. Epoch [4/49]
+2024-05-16 19:30:47,710 [MainThread] INFO UNetTrainer - Training iteration [80/6000000]. Epoch [4/49]
+2024-05-16 19:30:48,752 [MainThread] INFO UNetTrainer - Training iteration [81/6000000]. Epoch [5/49]
+2024-05-16 19:30:48,945 [MainThread] INFO UNetTrainer - Training iteration [82/6000000]. Epoch [5/49]
+2024-05-16 19:30:49,494 [MainThread] INFO UNetTrainer - Training iteration [83/6000000]. Epoch [5/49]
+2024-05-16 19:30:50,045 [MainThread] INFO UNetTrainer - Training iteration [84/6000000]. Epoch [5/49]
+2024-05-16 19:30:50,595 [MainThread] INFO UNetTrainer - Training iteration [85/6000000]. Epoch [5/49]
+2024-05-16 19:30:51,145 [MainThread] INFO UNetTrainer - Training iteration [86/6000000]. Epoch [5/49]
+2024-05-16 19:30:51,696 [MainThread] INFO UNetTrainer - Training iteration [87/6000000]. Epoch [5/49]
+2024-05-16 19:30:52,247 [MainThread] INFO UNetTrainer - Training iteration [88/6000000]. Epoch [5/49]
+2024-05-16 19:30:52,797 [MainThread] INFO UNetTrainer - Training iteration [89/6000000]. Epoch [5/49]
+2024-05-16 19:30:53,348 [MainThread] INFO UNetTrainer - Training iteration [90/6000000]. Epoch [5/49]
+2024-05-16 19:30:53,898 [MainThread] INFO UNetTrainer - Training iteration [91/6000000]. Epoch [5/49]
+2024-05-16 19:30:54,449 [MainThread] INFO UNetTrainer - Training iteration [92/6000000]. Epoch [5/49]
+2024-05-16 19:30:55,000 [MainThread] INFO UNetTrainer - Training iteration [93/6000000]. Epoch [5/49]
+2024-05-16 19:30:55,550 [MainThread] INFO UNetTrainer - Training iteration [94/6000000]. Epoch [5/49]
+2024-05-16 19:30:56,100 [MainThread] INFO UNetTrainer - Training iteration [95/6000000]. Epoch [5/49]
+2024-05-16 19:30:56,650 [MainThread] INFO UNetTrainer - Training iteration [96/6000000]. Epoch [5/49]
+2024-05-16 19:30:57,752 [MainThread] INFO UNetTrainer - Training iteration [97/6000000]. Epoch [6/49]
+2024-05-16 19:30:57,944 [MainThread] INFO UNetTrainer - Training iteration [98/6000000]. Epoch [6/49]
+2024-05-16 19:30:58,494 [MainThread] INFO UNetTrainer - Training iteration [99/6000000]. Epoch [6/49]
+2024-05-16 19:30:59,045 [MainThread] INFO UNetTrainer - Training iteration [100/6000000]. Epoch [6/49]
+2024-05-16 19:30:59,596 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:30:59,824 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:31:00,223 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:31:00,426 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:31:00,630 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:31:00,833 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:31:01,037 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:31:01,241 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:31:01,445 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:31:01,673 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0543452054262161. Evaluation score: 0.34177709370851517
+2024-05-16 19:31:01,673 [MainThread] INFO UNetTrainer - Saving new best evaluation metric: 0.34177709370851517
+2024-05-16 19:31:01,674 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:31:01,837 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9261842370033264. Evaluation score: 0.25972992181777954
+2024-05-16 19:31:01,900 [MainThread] INFO UNetTrainer - Training iteration [101/6000000]. Epoch [6/49]
+2024-05-16 19:31:02,088 [MainThread] INFO UNetTrainer - Training iteration [102/6000000]. Epoch [6/49]
+2024-05-16 19:31:02,639 [MainThread] INFO UNetTrainer - Training iteration [103/6000000]. Epoch [6/49]
+2024-05-16 19:31:03,190 [MainThread] INFO UNetTrainer - Training iteration [104/6000000]. Epoch [6/49]
+2024-05-16 19:31:03,741 [MainThread] INFO UNetTrainer - Training iteration [105/6000000]. Epoch [6/49]
+2024-05-16 19:31:04,292 [MainThread] INFO UNetTrainer - Training iteration [106/6000000]. Epoch [6/49]
+2024-05-16 19:31:04,843 [MainThread] INFO UNetTrainer - Training iteration [107/6000000]. Epoch [6/49]
+2024-05-16 19:31:05,395 [MainThread] INFO UNetTrainer - Training iteration [108/6000000]. Epoch [6/49]
+2024-05-16 19:31:05,946 [MainThread] INFO UNetTrainer - Training iteration [109/6000000]. Epoch [6/49]
+2024-05-16 19:31:06,497 [MainThread] INFO UNetTrainer - Training iteration [110/6000000]. Epoch [6/49]
+2024-05-16 19:31:07,048 [MainThread] INFO UNetTrainer - Training iteration [111/6000000]. Epoch [6/49]
+2024-05-16 19:31:07,599 [MainThread] INFO UNetTrainer - Training iteration [112/6000000]. Epoch [6/49]
+2024-05-16 19:31:08,699 [MainThread] INFO UNetTrainer - Training iteration [113/6000000]. Epoch [7/49]
+2024-05-16 19:31:08,891 [MainThread] INFO UNetTrainer - Training iteration [114/6000000]. Epoch [7/49]
+2024-05-16 19:31:09,441 [MainThread] INFO UNetTrainer - Training iteration [115/6000000]. Epoch [7/49]
+2024-05-16 19:31:09,992 [MainThread] INFO UNetTrainer - Training iteration [116/6000000]. Epoch [7/49]
+2024-05-16 19:31:10,543 [MainThread] INFO UNetTrainer - Training iteration [117/6000000]. Epoch [7/49]
+2024-05-16 19:31:11,094 [MainThread] INFO UNetTrainer - Training iteration [118/6000000]. Epoch [7/49]
+2024-05-16 19:31:11,646 [MainThread] INFO UNetTrainer - Training iteration [119/6000000]. Epoch [7/49]
+2024-05-16 19:31:12,197 [MainThread] INFO UNetTrainer - Training iteration [120/6000000]. Epoch [7/49]
+2024-05-16 19:31:12,748 [MainThread] INFO UNetTrainer - Training iteration [121/6000000]. Epoch [7/49]
+2024-05-16 19:31:13,299 [MainThread] INFO UNetTrainer - Training iteration [122/6000000]. Epoch [7/49]
+2024-05-16 19:31:13,850 [MainThread] INFO UNetTrainer - Training iteration [123/6000000]. Epoch [7/49]
+2024-05-16 19:31:14,401 [MainThread] INFO UNetTrainer - Training iteration [124/6000000]. Epoch [7/49]
+2024-05-16 19:31:14,952 [MainThread] INFO UNetTrainer - Training iteration [125/6000000]. Epoch [7/49]
+2024-05-16 19:31:15,503 [MainThread] INFO UNetTrainer - Training iteration [126/6000000]. Epoch [7/49]
+2024-05-16 19:31:16,054 [MainThread] INFO UNetTrainer - Training iteration [127/6000000]. Epoch [7/49]
+2024-05-16 19:31:16,605 [MainThread] INFO UNetTrainer - Training iteration [128/6000000]. Epoch [7/49]
+2024-05-16 19:31:17,685 [MainThread] INFO UNetTrainer - Training iteration [129/6000000]. Epoch [8/49]
+2024-05-16 19:31:17,876 [MainThread] INFO UNetTrainer - Training iteration [130/6000000]. Epoch [8/49]
+2024-05-16 19:31:18,426 [MainThread] INFO UNetTrainer - Training iteration [131/6000000]. Epoch [8/49]
+2024-05-16 19:31:18,976 [MainThread] INFO UNetTrainer - Training iteration [132/6000000]. Epoch [8/49]
+2024-05-16 19:31:19,526 [MainThread] INFO UNetTrainer - Training iteration [133/6000000]. Epoch [8/49]
+2024-05-16 19:31:20,077 [MainThread] INFO UNetTrainer - Training iteration [134/6000000]. Epoch [8/49]
+2024-05-16 19:31:20,627 [MainThread] INFO UNetTrainer - Training iteration [135/6000000]. Epoch [8/49]
+2024-05-16 19:31:21,178 [MainThread] INFO UNetTrainer - Training iteration [136/6000000]. Epoch [8/49]
+2024-05-16 19:31:21,728 [MainThread] INFO UNetTrainer - Training iteration [137/6000000]. Epoch [8/49]
+2024-05-16 19:31:22,279 [MainThread] INFO UNetTrainer - Training iteration [138/6000000]. Epoch [8/49]
+2024-05-16 19:31:22,829 [MainThread] INFO UNetTrainer - Training iteration [139/6000000]. Epoch [8/49]
+2024-05-16 19:31:23,380 [MainThread] INFO UNetTrainer - Training iteration [140/6000000]. Epoch [8/49]
+2024-05-16 19:31:23,930 [MainThread] INFO UNetTrainer - Training iteration [141/6000000]. Epoch [8/49]
+2024-05-16 19:31:24,481 [MainThread] INFO UNetTrainer - Training iteration [142/6000000]. Epoch [8/49]
+2024-05-16 19:31:25,032 [MainThread] INFO UNetTrainer - Training iteration [143/6000000]. Epoch [8/49]
+2024-05-16 19:31:25,582 [MainThread] INFO UNetTrainer - Training iteration [144/6000000]. Epoch [8/49]
+2024-05-16 19:31:26,591 [MainThread] INFO UNetTrainer - Training iteration [145/6000000]. Epoch [9/49]
+2024-05-16 19:31:26,787 [MainThread] INFO UNetTrainer - Training iteration [146/6000000]. Epoch [9/49]
+2024-05-16 19:31:27,334 [MainThread] INFO UNetTrainer - Training iteration [147/6000000]. Epoch [9/49]
+2024-05-16 19:31:27,884 [MainThread] INFO UNetTrainer - Training iteration [148/6000000]. Epoch [9/49]
+2024-05-16 19:31:28,434 [MainThread] INFO UNetTrainer - Training iteration [149/6000000]. Epoch [9/49]
+2024-05-16 19:31:28,985 [MainThread] INFO UNetTrainer - Training iteration [150/6000000]. Epoch [9/49]
+2024-05-16 19:31:29,906 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9038648108641306. Evaluation score: 0.4168018400669098
+2024-05-16 19:31:29,970 [MainThread] INFO UNetTrainer - Training iteration [151/6000000]. Epoch [9/49]
+2024-05-16 19:31:30,159 [MainThread] INFO UNetTrainer - Training iteration [152/6000000]. Epoch [9/49]
+2024-05-16 19:31:30,709 [MainThread] INFO UNetTrainer - Training iteration [153/6000000]. Epoch [9/49]
+2024-05-16 19:31:31,260 [MainThread] INFO UNetTrainer - Training iteration [154/6000000]. Epoch [9/49]
+2024-05-16 19:31:31,810 [MainThread] INFO UNetTrainer - Training iteration [155/6000000]. Epoch [9/49]
+2024-05-16 19:31:32,360 [MainThread] INFO UNetTrainer - Training iteration [156/6000000]. Epoch [9/49]
+2024-05-16 19:31:32,911 [MainThread] INFO UNetTrainer - Training iteration [157/6000000]. Epoch [9/49]
+2024-05-16 19:31:33,461 [MainThread] INFO UNetTrainer - Training iteration [158/6000000]. Epoch [9/49]
+2024-05-16 19:31:34,012 [MainThread] INFO UNetTrainer - Training iteration [159/6000000]. Epoch [9/49]
+2024-05-16 19:31:34,562 [MainThread] INFO UNetTrainer - Training iteration [160/6000000]. Epoch [9/49]
+2024-05-16 19:31:35,706 [MainThread] INFO UNetTrainer - Training iteration [161/6000000]. Epoch [10/49]
+2024-05-16 19:31:35,899 [MainThread] INFO UNetTrainer - Training iteration [162/6000000]. Epoch [10/49]
+2024-05-16 19:31:36,447 [MainThread] INFO UNetTrainer - Training iteration [163/6000000]. Epoch [10/49]
+2024-05-16 19:31:36,998 [MainThread] INFO UNetTrainer - Training iteration [164/6000000]. Epoch [10/49]
+2024-05-16 19:31:37,549 [MainThread] INFO UNetTrainer - Training iteration [165/6000000]. Epoch [10/49]
+2024-05-16 19:31:38,099 [MainThread] INFO UNetTrainer - Training iteration [166/6000000]. Epoch [10/49]
+2024-05-16 19:31:38,650 [MainThread] INFO UNetTrainer - Training iteration [167/6000000]. Epoch [10/49]
+2024-05-16 19:31:39,201 [MainThread] INFO UNetTrainer - Training iteration [168/6000000]. Epoch [10/49]
+2024-05-16 19:31:39,752 [MainThread] INFO UNetTrainer - Training iteration [169/6000000]. Epoch [10/49]
+2024-05-16 19:31:40,303 [MainThread] INFO UNetTrainer - Training iteration [170/6000000]. Epoch [10/49]
+2024-05-16 19:31:40,853 [MainThread] INFO UNetTrainer - Training iteration [171/6000000]. Epoch [10/49]
+2024-05-16 19:31:41,404 [MainThread] INFO UNetTrainer - Training iteration [172/6000000]. Epoch [10/49]
+2024-05-16 19:31:41,955 [MainThread] INFO UNetTrainer - Training iteration [173/6000000]. Epoch [10/49]
+2024-05-16 19:31:42,506 [MainThread] INFO UNetTrainer - Training iteration [174/6000000]. Epoch [10/49]
+2024-05-16 19:31:43,057 [MainThread] INFO UNetTrainer - Training iteration [175/6000000]. Epoch [10/49]
+2024-05-16 19:31:43,608 [MainThread] INFO UNetTrainer - Training iteration [176/6000000]. Epoch [10/49]
+2024-05-16 19:31:44,634 [MainThread] INFO UNetTrainer - Training iteration [177/6000000]. Epoch [11/49]
+2024-05-16 19:31:44,835 [MainThread] INFO UNetTrainer - Training iteration [178/6000000]. Epoch [11/49]
+2024-05-16 19:31:45,378 [MainThread] INFO UNetTrainer - Training iteration [179/6000000]. Epoch [11/49]
+2024-05-16 19:31:45,929 [MainThread] INFO UNetTrainer - Training iteration [180/6000000]. Epoch [11/49]
+2024-05-16 19:31:46,479 [MainThread] INFO UNetTrainer - Training iteration [181/6000000]. Epoch [11/49]
+2024-05-16 19:31:47,030 [MainThread] INFO UNetTrainer - Training iteration [182/6000000]. Epoch [11/49]
+2024-05-16 19:31:47,580 [MainThread] INFO UNetTrainer - Training iteration [183/6000000]. Epoch [11/49]
+2024-05-16 19:31:48,131 [MainThread] INFO UNetTrainer - Training iteration [184/6000000]. Epoch [11/49]
+2024-05-16 19:31:48,682 [MainThread] INFO UNetTrainer - Training iteration [185/6000000]. Epoch [11/49]
+2024-05-16 19:31:49,232 [MainThread] INFO UNetTrainer - Training iteration [186/6000000]. Epoch [11/49]
+2024-05-16 19:31:49,783 [MainThread] INFO UNetTrainer - Training iteration [187/6000000]. Epoch [11/49]
+2024-05-16 19:31:50,334 [MainThread] INFO UNetTrainer - Training iteration [188/6000000]. Epoch [11/49]
+2024-05-16 19:31:50,884 [MainThread] INFO UNetTrainer - Training iteration [189/6000000]. Epoch [11/49]
+2024-05-16 19:31:51,435 [MainThread] INFO UNetTrainer - Training iteration [190/6000000]. Epoch [11/49]
+2024-05-16 19:31:51,986 [MainThread] INFO UNetTrainer - Training iteration [191/6000000]. Epoch [11/49]
+2024-05-16 19:31:52,536 [MainThread] INFO UNetTrainer - Training iteration [192/6000000]. Epoch [11/49]
+2024-05-16 19:31:53,503 [MainThread] INFO UNetTrainer - Training iteration [193/6000000]. Epoch [12/49]
+2024-05-16 19:31:53,698 [MainThread] INFO UNetTrainer - Training iteration [194/6000000]. Epoch [12/49]
+2024-05-16 19:31:54,245 [MainThread] INFO UNetTrainer - Training iteration [195/6000000]. Epoch [12/49]
+2024-05-16 19:31:54,797 [MainThread] INFO UNetTrainer - Training iteration [196/6000000]. Epoch [12/49]
+2024-05-16 19:31:55,348 [MainThread] INFO UNetTrainer - Training iteration [197/6000000]. Epoch [12/49]
+2024-05-16 19:31:55,899 [MainThread] INFO UNetTrainer - Training iteration [198/6000000]. Epoch [12/49]
+2024-05-16 19:31:56,450 [MainThread] INFO UNetTrainer - Training iteration [199/6000000]. Epoch [12/49]
+2024-05-16 19:31:57,001 [MainThread] INFO UNetTrainer - Training iteration [200/6000000]. Epoch [12/49]
+2024-05-16 19:31:57,552 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:31:57,773 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:31:58,175 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:31:58,378 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:31:58,582 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:31:58,786 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:31:58,989 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:31:59,193 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:31:59,396 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:31:59,623 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0278501361608505. Evaluation score: 0.3520114868879318
+2024-05-16 19:31:59,624 [MainThread] INFO UNetTrainer - Saving new best evaluation metric: 0.3520114868879318
+2024-05-16 19:31:59,625 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:31:59,785 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.9446800947189331. Evaluation score: 0.3989398181438446
+2024-05-16 19:31:59,845 [MainThread] INFO UNetTrainer - Training iteration [201/6000000]. Epoch [12/49]
+2024-05-16 19:32:00,034 [MainThread] INFO UNetTrainer - Training iteration [202/6000000]. Epoch [12/49]
+2024-05-16 19:32:00,585 [MainThread] INFO UNetTrainer - Training iteration [203/6000000]. Epoch [12/49]
+2024-05-16 19:32:01,136 [MainThread] INFO UNetTrainer - Training iteration [204/6000000]. Epoch [12/49]
+2024-05-16 19:32:01,686 [MainThread] INFO UNetTrainer - Training iteration [205/6000000]. Epoch [12/49]
+2024-05-16 19:32:02,237 [MainThread] INFO UNetTrainer - Training iteration [206/6000000]. Epoch [12/49]
+2024-05-16 19:32:02,788 [MainThread] INFO UNetTrainer - Training iteration [207/6000000]. Epoch [12/49]
+2024-05-16 19:32:03,338 [MainThread] INFO UNetTrainer - Training iteration [208/6000000]. Epoch [12/49]
+2024-05-16 19:32:04,362 [MainThread] INFO UNetTrainer - Training iteration [209/6000000]. Epoch [13/49]
+2024-05-16 19:32:04,560 [MainThread] INFO UNetTrainer - Training iteration [210/6000000]. Epoch [13/49]
+2024-05-16 19:32:05,106 [MainThread] INFO UNetTrainer - Training iteration [211/6000000]. Epoch [13/49]
+2024-05-16 19:32:05,656 [MainThread] INFO UNetTrainer - Training iteration [212/6000000]. Epoch [13/49]
+2024-05-16 19:32:06,207 [MainThread] INFO UNetTrainer - Training iteration [213/6000000]. Epoch [13/49]
+2024-05-16 19:32:06,757 [MainThread] INFO UNetTrainer - Training iteration [214/6000000]. Epoch [13/49]
+2024-05-16 19:32:07,308 [MainThread] INFO UNetTrainer - Training iteration [215/6000000]. Epoch [13/49]
+2024-05-16 19:32:07,858 [MainThread] INFO UNetTrainer - Training iteration [216/6000000]. Epoch [13/49]
+2024-05-16 19:32:08,409 [MainThread] INFO UNetTrainer - Training iteration [217/6000000]. Epoch [13/49]
+2024-05-16 19:32:08,959 [MainThread] INFO UNetTrainer - Training iteration [218/6000000]. Epoch [13/49]
+2024-05-16 19:32:09,510 [MainThread] INFO UNetTrainer - Training iteration [219/6000000]. Epoch [13/49]
+2024-05-16 19:32:10,061 [MainThread] INFO UNetTrainer - Training iteration [220/6000000]. Epoch [13/49]
+2024-05-16 19:32:10,611 [MainThread] INFO UNetTrainer - Training iteration [221/6000000]. Epoch [13/49]
+2024-05-16 19:32:11,162 [MainThread] INFO UNetTrainer - Training iteration [222/6000000]. Epoch [13/49]
+2024-05-16 19:32:11,713 [MainThread] INFO UNetTrainer - Training iteration [223/6000000]. Epoch [13/49]
+2024-05-16 19:32:12,263 [MainThread] INFO UNetTrainer - Training iteration [224/6000000]. Epoch [13/49]
+2024-05-16 19:32:13,270 [MainThread] INFO UNetTrainer - Training iteration [225/6000000]. Epoch [14/49]
+2024-05-16 19:32:13,461 [MainThread] INFO UNetTrainer - Training iteration [226/6000000]. Epoch [14/49]
+2024-05-16 19:32:14,011 [MainThread] INFO UNetTrainer - Training iteration [227/6000000]. Epoch [14/49]
+2024-05-16 19:32:14,561 [MainThread] INFO UNetTrainer - Training iteration [228/6000000]. Epoch [14/49]
+2024-05-16 19:32:15,112 [MainThread] INFO UNetTrainer - Training iteration [229/6000000]. Epoch [14/49]
+2024-05-16 19:32:15,663 [MainThread] INFO UNetTrainer - Training iteration [230/6000000]. Epoch [14/49]
+2024-05-16 19:32:16,214 [MainThread] INFO UNetTrainer - Training iteration [231/6000000]. Epoch [14/49]
+2024-05-16 19:32:16,765 [MainThread] INFO UNetTrainer - Training iteration [232/6000000]. Epoch [14/49]
+2024-05-16 19:32:17,315 [MainThread] INFO UNetTrainer - Training iteration [233/6000000]. Epoch [14/49]
+2024-05-16 19:32:17,866 [MainThread] INFO UNetTrainer - Training iteration [234/6000000]. Epoch [14/49]
+2024-05-16 19:32:18,416 [MainThread] INFO UNetTrainer - Training iteration [235/6000000]. Epoch [14/49]
+2024-05-16 19:32:18,966 [MainThread] INFO UNetTrainer - Training iteration [236/6000000]. Epoch [14/49]
+2024-05-16 19:32:19,517 [MainThread] INFO UNetTrainer - Training iteration [237/6000000]. Epoch [14/49]
+2024-05-16 19:32:20,068 [MainThread] INFO UNetTrainer - Training iteration [238/6000000]. Epoch [14/49]
+2024-05-16 19:32:20,618 [MainThread] INFO UNetTrainer - Training iteration [239/6000000]. Epoch [14/49]
+2024-05-16 19:32:21,168 [MainThread] INFO UNetTrainer - Training iteration [240/6000000]. Epoch [14/49]
+2024-05-16 19:32:22,151 [MainThread] INFO UNetTrainer - Training iteration [241/6000000]. Epoch [15/49]
+2024-05-16 19:32:22,347 [MainThread] INFO UNetTrainer - Training iteration [242/6000000]. Epoch [15/49]
+2024-05-16 19:32:22,895 [MainThread] INFO UNetTrainer - Training iteration [243/6000000]. Epoch [15/49]
+2024-05-16 19:32:23,445 [MainThread] INFO UNetTrainer - Training iteration [244/6000000]. Epoch [15/49]
+2024-05-16 19:32:23,995 [MainThread] INFO UNetTrainer - Training iteration [245/6000000]. Epoch [15/49]
+2024-05-16 19:32:24,546 [MainThread] INFO UNetTrainer - Training iteration [246/6000000]. Epoch [15/49]
+2024-05-16 19:32:25,097 [MainThread] INFO UNetTrainer - Training iteration [247/6000000]. Epoch [15/49]
+2024-05-16 19:32:25,647 [MainThread] INFO UNetTrainer - Training iteration [248/6000000]. Epoch [15/49]
+2024-05-16 19:32:26,198 [MainThread] INFO UNetTrainer - Training iteration [249/6000000]. Epoch [15/49]
+2024-05-16 19:32:26,749 [MainThread] INFO UNetTrainer - Training iteration [250/6000000]. Epoch [15/49]
+2024-05-16 19:32:27,669 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8540221482515336. Evaluation score: 0.4126950800418854
+2024-05-16 19:32:27,730 [MainThread] INFO UNetTrainer - Training iteration [251/6000000]. Epoch [15/49]
+2024-05-16 19:32:27,919 [MainThread] INFO UNetTrainer - Training iteration [252/6000000]. Epoch [15/49]
+2024-05-16 19:32:28,469 [MainThread] INFO UNetTrainer - Training iteration [253/6000000]. Epoch [15/49]
+2024-05-16 19:32:29,019 [MainThread] INFO UNetTrainer - Training iteration [254/6000000]. Epoch [15/49]
+2024-05-16 19:32:29,570 [MainThread] INFO UNetTrainer - Training iteration [255/6000000]. Epoch [15/49]
+2024-05-16 19:32:30,121 [MainThread] INFO UNetTrainer - Training iteration [256/6000000]. Epoch [15/49]
+2024-05-16 19:32:31,175 [MainThread] INFO UNetTrainer - Training iteration [257/6000000]. Epoch [16/49]
+2024-05-16 19:32:31,370 [MainThread] INFO UNetTrainer - Training iteration [258/6000000]. Epoch [16/49]
+2024-05-16 19:32:31,916 [MainThread] INFO UNetTrainer - Training iteration [259/6000000]. Epoch [16/49]
+2024-05-16 19:32:32,466 [MainThread] INFO UNetTrainer - Training iteration [260/6000000]. Epoch [16/49]
+2024-05-16 19:32:33,016 [MainThread] INFO UNetTrainer - Training iteration [261/6000000]. Epoch [16/49]
+2024-05-16 19:32:33,567 [MainThread] INFO UNetTrainer - Training iteration [262/6000000]. Epoch [16/49]
+2024-05-16 19:32:34,117 [MainThread] INFO UNetTrainer - Training iteration [263/6000000]. Epoch [16/49]
+2024-05-16 19:32:34,668 [MainThread] INFO UNetTrainer - Training iteration [264/6000000]. Epoch [16/49]
+2024-05-16 19:32:35,219 [MainThread] INFO UNetTrainer - Training iteration [265/6000000]. Epoch [16/49]
+2024-05-16 19:32:35,770 [MainThread] INFO UNetTrainer - Training iteration [266/6000000]. Epoch [16/49]
+2024-05-16 19:32:36,320 [MainThread] INFO UNetTrainer - Training iteration [267/6000000]. Epoch [16/49]
+2024-05-16 19:32:36,871 [MainThread] INFO UNetTrainer - Training iteration [268/6000000]. Epoch [16/49]
+2024-05-16 19:32:37,421 [MainThread] INFO UNetTrainer - Training iteration [269/6000000]. Epoch [16/49]
+2024-05-16 19:32:37,972 [MainThread] INFO UNetTrainer - Training iteration [270/6000000]. Epoch [16/49]
+2024-05-16 19:32:38,522 [MainThread] INFO UNetTrainer - Training iteration [271/6000000]. Epoch [16/49]
+2024-05-16 19:32:39,072 [MainThread] INFO UNetTrainer - Training iteration [272/6000000]. Epoch [16/49]
+2024-05-16 19:32:40,107 [MainThread] INFO UNetTrainer - Training iteration [273/6000000]. Epoch [17/49]
+2024-05-16 19:32:40,310 [MainThread] INFO UNetTrainer - Training iteration [274/6000000]. Epoch [17/49]
+2024-05-16 19:32:40,853 [MainThread] INFO UNetTrainer - Training iteration [275/6000000]. Epoch [17/49]
+2024-05-16 19:32:41,403 [MainThread] INFO UNetTrainer - Training iteration [276/6000000]. Epoch [17/49]
+2024-05-16 19:32:41,954 [MainThread] INFO UNetTrainer - Training iteration [277/6000000]. Epoch [17/49]
+2024-05-16 19:32:42,505 [MainThread] INFO UNetTrainer - Training iteration [278/6000000]. Epoch [17/49]
+2024-05-16 19:32:43,055 [MainThread] INFO UNetTrainer - Training iteration [279/6000000]. Epoch [17/49]
+2024-05-16 19:32:43,606 [MainThread] INFO UNetTrainer - Training iteration [280/6000000]. Epoch [17/49]
+2024-05-16 19:32:44,157 [MainThread] INFO UNetTrainer - Training iteration [281/6000000]. Epoch [17/49]
+2024-05-16 19:32:44,707 [MainThread] INFO UNetTrainer - Training iteration [282/6000000]. Epoch [17/49]
+2024-05-16 19:32:45,259 [MainThread] INFO UNetTrainer - Training iteration [283/6000000]. Epoch [17/49]
+2024-05-16 19:32:45,809 [MainThread] INFO UNetTrainer - Training iteration [284/6000000]. Epoch [17/49]
+2024-05-16 19:32:46,359 [MainThread] INFO UNetTrainer - Training iteration [285/6000000]. Epoch [17/49]
+2024-05-16 19:32:46,910 [MainThread] INFO UNetTrainer - Training iteration [286/6000000]. Epoch [17/49]
+2024-05-16 19:32:47,461 [MainThread] INFO UNetTrainer - Training iteration [287/6000000]. Epoch [17/49]
+2024-05-16 19:32:48,011 [MainThread] INFO UNetTrainer - Training iteration [288/6000000]. Epoch [17/49]
+2024-05-16 19:32:49,178 [MainThread] INFO UNetTrainer - Training iteration [289/6000000]. Epoch [18/49]
+2024-05-16 19:32:49,370 [MainThread] INFO UNetTrainer - Training iteration [290/6000000]. Epoch [18/49]
+2024-05-16 19:32:49,919 [MainThread] INFO UNetTrainer - Training iteration [291/6000000]. Epoch [18/49]
+2024-05-16 19:32:50,469 [MainThread] INFO UNetTrainer - Training iteration [292/6000000]. Epoch [18/49]
+2024-05-16 19:32:51,020 [MainThread] INFO UNetTrainer - Training iteration [293/6000000]. Epoch [18/49]
+2024-05-16 19:32:51,571 [MainThread] INFO UNetTrainer - Training iteration [294/6000000]. Epoch [18/49]
+2024-05-16 19:32:52,121 [MainThread] INFO UNetTrainer - Training iteration [295/6000000]. Epoch [18/49]
+2024-05-16 19:32:52,672 [MainThread] INFO UNetTrainer - Training iteration [296/6000000]. Epoch [18/49]
+2024-05-16 19:32:53,222 [MainThread] INFO UNetTrainer - Training iteration [297/6000000]. Epoch [18/49]
+2024-05-16 19:32:53,773 [MainThread] INFO UNetTrainer - Training iteration [298/6000000]. Epoch [18/49]
+2024-05-16 19:32:54,324 [MainThread] INFO UNetTrainer - Training iteration [299/6000000]. Epoch [18/49]
+2024-05-16 19:32:54,875 [MainThread] INFO UNetTrainer - Training iteration [300/6000000]. Epoch [18/49]
+2024-05-16 19:32:55,426 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:32:55,701 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:32:56,047 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:32:56,250 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:32:56,453 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:32:56,657 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:32:56,860 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:32:57,064 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:32:57,267 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:32:57,493 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0579889714717865. Evaluation score: 0.28906429931521416
+2024-05-16 19:32:57,495 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:32:57,600 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8384814858436584. Evaluation score: 0.41254666447639465
+2024-05-16 19:32:57,657 [MainThread] INFO UNetTrainer - Training iteration [301/6000000]. Epoch [18/49]
+2024-05-16 19:32:57,846 [MainThread] INFO UNetTrainer - Training iteration [302/6000000]. Epoch [18/49]
+2024-05-16 19:32:58,396 [MainThread] INFO UNetTrainer - Training iteration [303/6000000]. Epoch [18/49]
+2024-05-16 19:32:58,947 [MainThread] INFO UNetTrainer - Training iteration [304/6000000]. Epoch [18/49]
+2024-05-16 19:32:59,921 [MainThread] INFO UNetTrainer - Training iteration [305/6000000]. Epoch [19/49]
+2024-05-16 19:33:00,121 [MainThread] INFO UNetTrainer - Training iteration [306/6000000]. Epoch [19/49]
+2024-05-16 19:33:00,665 [MainThread] INFO UNetTrainer - Training iteration [307/6000000]. Epoch [19/49]
+2024-05-16 19:33:01,215 [MainThread] INFO UNetTrainer - Training iteration [308/6000000]. Epoch [19/49]
+2024-05-16 19:33:01,765 [MainThread] INFO UNetTrainer - Training iteration [309/6000000]. Epoch [19/49]
+2024-05-16 19:33:02,316 [MainThread] INFO UNetTrainer - Training iteration [310/6000000]. Epoch [19/49]
+2024-05-16 19:33:02,867 [MainThread] INFO UNetTrainer - Training iteration [311/6000000]. Epoch [19/49]
+2024-05-16 19:33:03,418 [MainThread] INFO UNetTrainer - Training iteration [312/6000000]. Epoch [19/49]
+2024-05-16 19:33:03,969 [MainThread] INFO UNetTrainer - Training iteration [313/6000000]. Epoch [19/49]
+2024-05-16 19:33:04,519 [MainThread] INFO UNetTrainer - Training iteration [314/6000000]. Epoch [19/49]
+2024-05-16 19:33:05,070 [MainThread] INFO UNetTrainer - Training iteration [315/6000000]. Epoch [19/49]
+2024-05-16 19:33:05,620 [MainThread] INFO UNetTrainer - Training iteration [316/6000000]. Epoch [19/49]
+2024-05-16 19:33:06,171 [MainThread] INFO UNetTrainer - Training iteration [317/6000000]. Epoch [19/49]
+2024-05-16 19:33:06,722 [MainThread] INFO UNetTrainer - Training iteration [318/6000000]. Epoch [19/49]
+2024-05-16 19:33:07,272 [MainThread] INFO UNetTrainer - Training iteration [319/6000000]. Epoch [19/49]
+2024-05-16 19:33:07,822 [MainThread] INFO UNetTrainer - Training iteration [320/6000000]. Epoch [19/49]
+2024-05-16 19:33:08,782 [MainThread] INFO UNetTrainer - Training iteration [321/6000000]. Epoch [20/49]
+2024-05-16 19:33:08,981 [MainThread] INFO UNetTrainer - Training iteration [322/6000000]. Epoch [20/49]
+2024-05-16 19:33:09,529 [MainThread] INFO UNetTrainer - Training iteration [323/6000000]. Epoch [20/49]
+2024-05-16 19:33:10,080 [MainThread] INFO UNetTrainer - Training iteration [324/6000000]. Epoch [20/49]
+2024-05-16 19:33:10,630 [MainThread] INFO UNetTrainer - Training iteration [325/6000000]. Epoch [20/49]
+2024-05-16 19:33:11,177 [MainThread] INFO UNetTrainer - Training iteration [326/6000000]. Epoch [20/49]
+2024-05-16 19:33:11,727 [MainThread] INFO UNetTrainer - Training iteration [327/6000000]. Epoch [20/49]
+2024-05-16 19:33:12,277 [MainThread] INFO UNetTrainer - Training iteration [328/6000000]. Epoch [20/49]
+2024-05-16 19:33:12,828 [MainThread] INFO UNetTrainer - Training iteration [329/6000000]. Epoch [20/49]
+2024-05-16 19:33:13,378 [MainThread] INFO UNetTrainer - Training iteration [330/6000000]. Epoch [20/49]
+2024-05-16 19:33:13,929 [MainThread] INFO UNetTrainer - Training iteration [331/6000000]. Epoch [20/49]
+2024-05-16 19:33:14,479 [MainThread] INFO UNetTrainer - Training iteration [332/6000000]. Epoch [20/49]
+2024-05-16 19:33:15,030 [MainThread] INFO UNetTrainer - Training iteration [333/6000000]. Epoch [20/49]
+2024-05-16 19:33:15,581 [MainThread] INFO UNetTrainer - Training iteration [334/6000000]. Epoch [20/49]
+2024-05-16 19:33:16,131 [MainThread] INFO UNetTrainer - Training iteration [335/6000000]. Epoch [20/49]
+2024-05-16 19:33:16,681 [MainThread] INFO UNetTrainer - Training iteration [336/6000000]. Epoch [20/49]
+2024-05-16 19:33:17,738 [MainThread] INFO UNetTrainer - Training iteration [337/6000000]. Epoch [21/49]
+2024-05-16 19:33:17,931 [MainThread] INFO UNetTrainer - Training iteration [338/6000000]. Epoch [21/49]
+2024-05-16 19:33:18,480 [MainThread] INFO UNetTrainer - Training iteration [339/6000000]. Epoch [21/49]
+2024-05-16 19:33:19,030 [MainThread] INFO UNetTrainer - Training iteration [340/6000000]. Epoch [21/49]
+2024-05-16 19:33:19,581 [MainThread] INFO UNetTrainer - Training iteration [341/6000000]. Epoch [21/49]
+2024-05-16 19:33:20,132 [MainThread] INFO UNetTrainer - Training iteration [342/6000000]. Epoch [21/49]
+2024-05-16 19:33:20,682 [MainThread] INFO UNetTrainer - Training iteration [343/6000000]. Epoch [21/49]
+2024-05-16 19:33:21,233 [MainThread] INFO UNetTrainer - Training iteration [344/6000000]. Epoch [21/49]
+2024-05-16 19:33:21,783 [MainThread] INFO UNetTrainer - Training iteration [345/6000000]. Epoch [21/49]
+2024-05-16 19:33:22,334 [MainThread] INFO UNetTrainer - Training iteration [346/6000000]. Epoch [21/49]
+2024-05-16 19:33:22,884 [MainThread] INFO UNetTrainer - Training iteration [347/6000000]. Epoch [21/49]
+2024-05-16 19:33:23,435 [MainThread] INFO UNetTrainer - Training iteration [348/6000000]. Epoch [21/49]
+2024-05-16 19:33:23,985 [MainThread] INFO UNetTrainer - Training iteration [349/6000000]. Epoch [21/49]
+2024-05-16 19:33:24,536 [MainThread] INFO UNetTrainer - Training iteration [350/6000000]. Epoch [21/49]
+2024-05-16 19:33:25,457 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8326451288802283. Evaluation score: 0.3994201123714447
+2024-05-16 19:33:25,520 [MainThread] INFO UNetTrainer - Training iteration [351/6000000]. Epoch [21/49]
+2024-05-16 19:33:25,708 [MainThread] INFO UNetTrainer - Training iteration [352/6000000]. Epoch [21/49]
+2024-05-16 19:33:26,721 [MainThread] INFO UNetTrainer - Training iteration [353/6000000]. Epoch [22/49]
+2024-05-16 19:33:26,921 [MainThread] INFO UNetTrainer - Training iteration [354/6000000]. Epoch [22/49]
+2024-05-16 19:33:27,468 [MainThread] INFO UNetTrainer - Training iteration [355/6000000]. Epoch [22/49]
+2024-05-16 19:33:28,019 [MainThread] INFO UNetTrainer - Training iteration [356/6000000]. Epoch [22/49]
+2024-05-16 19:33:28,569 [MainThread] INFO UNetTrainer - Training iteration [357/6000000]. Epoch [22/49]
+2024-05-16 19:33:29,117 [MainThread] INFO UNetTrainer - Training iteration [358/6000000]. Epoch [22/49]
+2024-05-16 19:33:29,666 [MainThread] INFO UNetTrainer - Training iteration [359/6000000]. Epoch [22/49]
+2024-05-16 19:33:30,217 [MainThread] INFO UNetTrainer - Training iteration [360/6000000]. Epoch [22/49]
+2024-05-16 19:33:30,768 [MainThread] INFO UNetTrainer - Training iteration [361/6000000]. Epoch [22/49]
+2024-05-16 19:33:31,319 [MainThread] INFO UNetTrainer - Training iteration [362/6000000]. Epoch [22/49]
+2024-05-16 19:33:31,869 [MainThread] INFO UNetTrainer - Training iteration [363/6000000]. Epoch [22/49]
+2024-05-16 19:33:32,420 [MainThread] INFO UNetTrainer - Training iteration [364/6000000]. Epoch [22/49]
+2024-05-16 19:33:32,970 [MainThread] INFO UNetTrainer - Training iteration [365/6000000]. Epoch [22/49]
+2024-05-16 19:33:33,521 [MainThread] INFO UNetTrainer - Training iteration [366/6000000]. Epoch [22/49]
+2024-05-16 19:33:34,072 [MainThread] INFO UNetTrainer - Training iteration [367/6000000]. Epoch [22/49]
+2024-05-16 19:33:34,622 [MainThread] INFO UNetTrainer - Training iteration [368/6000000]. Epoch [22/49]
+2024-05-16 19:33:35,730 [MainThread] INFO UNetTrainer - Training iteration [369/6000000]. Epoch [23/49]
+2024-05-16 19:33:35,922 [MainThread] INFO UNetTrainer - Training iteration [370/6000000]. Epoch [23/49]
+2024-05-16 19:33:36,471 [MainThread] INFO UNetTrainer - Training iteration [371/6000000]. Epoch [23/49]
+2024-05-16 19:33:37,022 [MainThread] INFO UNetTrainer - Training iteration [372/6000000]. Epoch [23/49]
+2024-05-16 19:33:37,572 [MainThread] INFO UNetTrainer - Training iteration [373/6000000]. Epoch [23/49]
+2024-05-16 19:33:38,123 [MainThread] INFO UNetTrainer - Training iteration [374/6000000]. Epoch [23/49]
+2024-05-16 19:33:38,674 [MainThread] INFO UNetTrainer - Training iteration [375/6000000]. Epoch [23/49]
+2024-05-16 19:33:39,225 [MainThread] INFO UNetTrainer - Training iteration [376/6000000]. Epoch [23/49]
+2024-05-16 19:33:39,775 [MainThread] INFO UNetTrainer - Training iteration [377/6000000]. Epoch [23/49]
+2024-05-16 19:33:40,327 [MainThread] INFO UNetTrainer - Training iteration [378/6000000]. Epoch [23/49]
+2024-05-16 19:33:40,877 [MainThread] INFO UNetTrainer - Training iteration [379/6000000]. Epoch [23/49]
+2024-05-16 19:33:41,428 [MainThread] INFO UNetTrainer - Training iteration [380/6000000]. Epoch [23/49]
+2024-05-16 19:33:41,978 [MainThread] INFO UNetTrainer - Training iteration [381/6000000]. Epoch [23/49]
+2024-05-16 19:33:42,529 [MainThread] INFO UNetTrainer - Training iteration [382/6000000]. Epoch [23/49]
+2024-05-16 19:33:43,080 [MainThread] INFO UNetTrainer - Training iteration [383/6000000]. Epoch [23/49]
+2024-05-16 19:33:43,630 [MainThread] INFO UNetTrainer - Training iteration [384/6000000]. Epoch [23/49]
+2024-05-16 19:33:44,585 [MainThread] INFO UNetTrainer - Training iteration [385/6000000]. Epoch [24/49]
+2024-05-16 19:33:44,785 [MainThread] INFO UNetTrainer - Training iteration [386/6000000]. Epoch [24/49]
+2024-05-16 19:33:45,332 [MainThread] INFO UNetTrainer - Training iteration [387/6000000]. Epoch [24/49]
+2024-05-16 19:33:45,878 [MainThread] INFO UNetTrainer - Training iteration [388/6000000]. Epoch [24/49]
+2024-05-16 19:33:46,429 [MainThread] INFO UNetTrainer - Training iteration [389/6000000]. Epoch [24/49]
+2024-05-16 19:33:46,980 [MainThread] INFO UNetTrainer - Training iteration [390/6000000]. Epoch [24/49]
+2024-05-16 19:33:47,531 [MainThread] INFO UNetTrainer - Training iteration [391/6000000]. Epoch [24/49]
+2024-05-16 19:33:48,081 [MainThread] INFO UNetTrainer - Training iteration [392/6000000]. Epoch [24/49]
+2024-05-16 19:33:48,633 [MainThread] INFO UNetTrainer - Training iteration [393/6000000]. Epoch [24/49]
+2024-05-16 19:33:49,183 [MainThread] INFO UNetTrainer - Training iteration [394/6000000]. Epoch [24/49]
+2024-05-16 19:33:49,734 [MainThread] INFO UNetTrainer - Training iteration [395/6000000]. Epoch [24/49]
+2024-05-16 19:33:50,285 [MainThread] INFO UNetTrainer - Training iteration [396/6000000]. Epoch [24/49]
+2024-05-16 19:33:50,835 [MainThread] INFO UNetTrainer - Training iteration [397/6000000]. Epoch [24/49]
+2024-05-16 19:33:51,386 [MainThread] INFO UNetTrainer - Training iteration [398/6000000]. Epoch [24/49]
+2024-05-16 19:33:51,937 [MainThread] INFO UNetTrainer - Training iteration [399/6000000]. Epoch [24/49]
+2024-05-16 19:33:52,487 [MainThread] INFO UNetTrainer - Training iteration [400/6000000]. Epoch [24/49]
+2024-05-16 19:33:53,038 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:33:53,292 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:33:53,660 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:33:53,864 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:33:54,068 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:33:54,271 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:33:54,475 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:33:54,678 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:33:54,882 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:33:55,109 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0206125229597092. Evaluation score: 0.3426655903458595
+2024-05-16 19:33:55,111 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:33:55,215 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8420871552079916. Evaluation score: 0.44471803307533264
+2024-05-16 19:33:55,758 [MainThread] INFO UNetTrainer - Training iteration [401/6000000]. Epoch [25/49]
+2024-05-16 19:33:55,957 [MainThread] INFO UNetTrainer - Training iteration [402/6000000]. Epoch [25/49]
+2024-05-16 19:33:56,504 [MainThread] INFO UNetTrainer - Training iteration [403/6000000]. Epoch [25/49]
+2024-05-16 19:33:57,052 [MainThread] INFO UNetTrainer - Training iteration [404/6000000]. Epoch [25/49]
+2024-05-16 19:33:57,600 [MainThread] INFO UNetTrainer - Training iteration [405/6000000]. Epoch [25/49]
+2024-05-16 19:33:58,150 [MainThread] INFO UNetTrainer - Training iteration [406/6000000]. Epoch [25/49]
+2024-05-16 19:33:58,701 [MainThread] INFO UNetTrainer - Training iteration [407/6000000]. Epoch [25/49]
+2024-05-16 19:33:59,252 [MainThread] INFO UNetTrainer - Training iteration [408/6000000]. Epoch [25/49]
+2024-05-16 19:33:59,802 [MainThread] INFO UNetTrainer - Training iteration [409/6000000]. Epoch [25/49]
+2024-05-16 19:34:00,354 [MainThread] INFO UNetTrainer - Training iteration [410/6000000]. Epoch [25/49]
+2024-05-16 19:34:00,904 [MainThread] INFO UNetTrainer - Training iteration [411/6000000]. Epoch [25/49]
+2024-05-16 19:34:01,455 [MainThread] INFO UNetTrainer - Training iteration [412/6000000]. Epoch [25/49]
+2024-05-16 19:34:02,006 [MainThread] INFO UNetTrainer - Training iteration [413/6000000]. Epoch [25/49]
+2024-05-16 19:34:02,556 [MainThread] INFO UNetTrainer - Training iteration [414/6000000]. Epoch [25/49]
+2024-05-16 19:34:03,107 [MainThread] INFO UNetTrainer - Training iteration [415/6000000]. Epoch [25/49]
+2024-05-16 19:34:03,658 [MainThread] INFO UNetTrainer - Training iteration [416/6000000]. Epoch [25/49]
+2024-05-16 19:34:04,686 [MainThread] INFO UNetTrainer - Training iteration [417/6000000]. Epoch [26/49]
+2024-05-16 19:34:04,886 [MainThread] INFO UNetTrainer - Training iteration [418/6000000]. Epoch [26/49]
+2024-05-16 19:34:05,429 [MainThread] INFO UNetTrainer - Training iteration [419/6000000]. Epoch [26/49]
+2024-05-16 19:34:05,979 [MainThread] INFO UNetTrainer - Training iteration [420/6000000]. Epoch [26/49]
+2024-05-16 19:34:06,530 [MainThread] INFO UNetTrainer - Training iteration [421/6000000]. Epoch [26/49]
+2024-05-16 19:34:07,081 [MainThread] INFO UNetTrainer - Training iteration [422/6000000]. Epoch [26/49]
+2024-05-16 19:34:07,632 [MainThread] INFO UNetTrainer - Training iteration [423/6000000]. Epoch [26/49]
+2024-05-16 19:34:08,182 [MainThread] INFO UNetTrainer - Training iteration [424/6000000]. Epoch [26/49]
+2024-05-16 19:34:08,733 [MainThread] INFO UNetTrainer - Training iteration [425/6000000]. Epoch [26/49]
+2024-05-16 19:34:09,284 [MainThread] INFO UNetTrainer - Training iteration [426/6000000]. Epoch [26/49]
+2024-05-16 19:34:09,835 [MainThread] INFO UNetTrainer - Training iteration [427/6000000]. Epoch [26/49]
+2024-05-16 19:34:10,386 [MainThread] INFO UNetTrainer - Training iteration [428/6000000]. Epoch [26/49]
+2024-05-16 19:34:10,938 [MainThread] INFO UNetTrainer - Training iteration [429/6000000]. Epoch [26/49]
+2024-05-16 19:34:11,487 [MainThread] INFO UNetTrainer - Training iteration [430/6000000]. Epoch [26/49]
+2024-05-16 19:34:12,038 [MainThread] INFO UNetTrainer - Training iteration [431/6000000]. Epoch [26/49]
+2024-05-16 19:34:12,589 [MainThread] INFO UNetTrainer - Training iteration [432/6000000]. Epoch [26/49]
+2024-05-16 19:34:13,637 [MainThread] INFO UNetTrainer - Training iteration [433/6000000]. Epoch [27/49]
+2024-05-16 19:34:13,829 [MainThread] INFO UNetTrainer - Training iteration [434/6000000]. Epoch [27/49]
+2024-05-16 19:34:14,378 [MainThread] INFO UNetTrainer - Training iteration [435/6000000]. Epoch [27/49]
+2024-05-16 19:34:14,928 [MainThread] INFO UNetTrainer - Training iteration [436/6000000]. Epoch [27/49]
+2024-05-16 19:34:15,479 [MainThread] INFO UNetTrainer - Training iteration [437/6000000]. Epoch [27/49]
+2024-05-16 19:34:16,030 [MainThread] INFO UNetTrainer - Training iteration [438/6000000]. Epoch [27/49]
+2024-05-16 19:34:16,581 [MainThread] INFO UNetTrainer - Training iteration [439/6000000]. Epoch [27/49]
+2024-05-16 19:34:17,132 [MainThread] INFO UNetTrainer - Training iteration [440/6000000]. Epoch [27/49]
+2024-05-16 19:34:17,683 [MainThread] INFO UNetTrainer - Training iteration [441/6000000]. Epoch [27/49]
+2024-05-16 19:34:18,233 [MainThread] INFO UNetTrainer - Training iteration [442/6000000]. Epoch [27/49]
+2024-05-16 19:34:18,784 [MainThread] INFO UNetTrainer - Training iteration [443/6000000]. Epoch [27/49]
+2024-05-16 19:34:19,335 [MainThread] INFO UNetTrainer - Training iteration [444/6000000]. Epoch [27/49]
+2024-05-16 19:34:19,886 [MainThread] INFO UNetTrainer - Training iteration [445/6000000]. Epoch [27/49]
+2024-05-16 19:34:20,437 [MainThread] INFO UNetTrainer - Training iteration [446/6000000]. Epoch [27/49]
+2024-05-16 19:34:20,987 [MainThread] INFO UNetTrainer - Training iteration [447/6000000]. Epoch [27/49]
+2024-05-16 19:34:21,538 [MainThread] INFO UNetTrainer - Training iteration [448/6000000]. Epoch [27/49]
+2024-05-16 19:34:22,584 [MainThread] INFO UNetTrainer - Training iteration [449/6000000]. Epoch [28/49]
+2024-05-16 19:34:22,782 [MainThread] INFO UNetTrainer - Training iteration [450/6000000]. Epoch [28/49]
+2024-05-16 19:34:23,695 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8622047007083893. Evaluation score: 0.45801782608032227
+2024-05-16 19:34:23,754 [MainThread] INFO UNetTrainer - Training iteration [451/6000000]. Epoch [28/49]
+2024-05-16 19:34:23,942 [MainThread] INFO UNetTrainer - Training iteration [452/6000000]. Epoch [28/49]
+2024-05-16 19:34:24,493 [MainThread] INFO UNetTrainer - Training iteration [453/6000000]. Epoch [28/49]
+2024-05-16 19:34:25,044 [MainThread] INFO UNetTrainer - Training iteration [454/6000000]. Epoch [28/49]
+2024-05-16 19:34:25,594 [MainThread] INFO UNetTrainer - Training iteration [455/6000000]. Epoch [28/49]
+2024-05-16 19:34:26,145 [MainThread] INFO UNetTrainer - Training iteration [456/6000000]. Epoch [28/49]
+2024-05-16 19:34:26,696 [MainThread] INFO UNetTrainer - Training iteration [457/6000000]. Epoch [28/49]
+2024-05-16 19:34:27,246 [MainThread] INFO UNetTrainer - Training iteration [458/6000000]. Epoch [28/49]
+2024-05-16 19:34:27,797 [MainThread] INFO UNetTrainer - Training iteration [459/6000000]. Epoch [28/49]
+2024-05-16 19:34:28,348 [MainThread] INFO UNetTrainer - Training iteration [460/6000000]. Epoch [28/49]
+2024-05-16 19:34:28,899 [MainThread] INFO UNetTrainer - Training iteration [461/6000000]. Epoch [28/49]
+2024-05-16 19:34:29,450 [MainThread] INFO UNetTrainer - Training iteration [462/6000000]. Epoch [28/49]
+2024-05-16 19:34:30,001 [MainThread] INFO UNetTrainer - Training iteration [463/6000000]. Epoch [28/49]
+2024-05-16 19:34:30,551 [MainThread] INFO UNetTrainer - Training iteration [464/6000000]. Epoch [28/49]
+2024-05-16 19:34:31,596 [MainThread] INFO UNetTrainer - Training iteration [465/6000000]. Epoch [29/49]
+2024-05-16 19:34:31,795 [MainThread] INFO UNetTrainer - Training iteration [466/6000000]. Epoch [29/49]
+2024-05-16 19:34:32,341 [MainThread] INFO UNetTrainer - Training iteration [467/6000000]. Epoch [29/49]
+2024-05-16 19:34:32,889 [MainThread] INFO UNetTrainer - Training iteration [468/6000000]. Epoch [29/49]
+2024-05-16 19:34:33,439 [MainThread] INFO UNetTrainer - Training iteration [469/6000000]. Epoch [29/49]
+2024-05-16 19:34:33,990 [MainThread] INFO UNetTrainer - Training iteration [470/6000000]. Epoch [29/49]
+2024-05-16 19:34:34,540 [MainThread] INFO UNetTrainer - Training iteration [471/6000000]. Epoch [29/49]
+2024-05-16 19:34:35,092 [MainThread] INFO UNetTrainer - Training iteration [472/6000000]. Epoch [29/49]
+2024-05-16 19:34:35,642 [MainThread] INFO UNetTrainer - Training iteration [473/6000000]. Epoch [29/49]
+2024-05-16 19:34:36,193 [MainThread] INFO UNetTrainer - Training iteration [474/6000000]. Epoch [29/49]
+2024-05-16 19:34:36,744 [MainThread] INFO UNetTrainer - Training iteration [475/6000000]. Epoch [29/49]
+2024-05-16 19:34:37,294 [MainThread] INFO UNetTrainer - Training iteration [476/6000000]. Epoch [29/49]
+2024-05-16 19:34:37,845 [MainThread] INFO UNetTrainer - Training iteration [477/6000000]. Epoch [29/49]
+2024-05-16 19:34:38,396 [MainThread] INFO UNetTrainer - Training iteration [478/6000000]. Epoch [29/49]
+2024-05-16 19:34:38,947 [MainThread] INFO UNetTrainer - Training iteration [479/6000000]. Epoch [29/49]
+2024-05-16 19:34:39,498 [MainThread] INFO UNetTrainer - Training iteration [480/6000000]. Epoch [29/49]
+2024-05-16 19:34:40,522 [MainThread] INFO UNetTrainer - Training iteration [481/6000000]. Epoch [30/49]
+2024-05-16 19:34:40,719 [MainThread] INFO UNetTrainer - Training iteration [482/6000000]. Epoch [30/49]
+2024-05-16 19:34:41,265 [MainThread] INFO UNetTrainer - Training iteration [483/6000000]. Epoch [30/49]
+2024-05-16 19:34:41,815 [MainThread] INFO UNetTrainer - Training iteration [484/6000000]. Epoch [30/49]
+2024-05-16 19:34:42,365 [MainThread] INFO UNetTrainer - Training iteration [485/6000000]. Epoch [30/49]
+2024-05-16 19:34:42,916 [MainThread] INFO UNetTrainer - Training iteration [486/6000000]. Epoch [30/49]
+2024-05-16 19:34:43,466 [MainThread] INFO UNetTrainer - Training iteration [487/6000000]. Epoch [30/49]
+2024-05-16 19:34:44,017 [MainThread] INFO UNetTrainer - Training iteration [488/6000000]. Epoch [30/49]
+2024-05-16 19:34:44,568 [MainThread] INFO UNetTrainer - Training iteration [489/6000000]. Epoch [30/49]
+2024-05-16 19:34:45,119 [MainThread] INFO UNetTrainer - Training iteration [490/6000000]. Epoch [30/49]
+2024-05-16 19:34:45,669 [MainThread] INFO UNetTrainer - Training iteration [491/6000000]. Epoch [30/49]
+2024-05-16 19:34:46,220 [MainThread] INFO UNetTrainer - Training iteration [492/6000000]. Epoch [30/49]
+2024-05-16 19:34:46,771 [MainThread] INFO UNetTrainer - Training iteration [493/6000000]. Epoch [30/49]
+2024-05-16 19:34:47,322 [MainThread] INFO UNetTrainer - Training iteration [494/6000000]. Epoch [30/49]
+2024-05-16 19:34:47,872 [MainThread] INFO UNetTrainer - Training iteration [495/6000000]. Epoch [30/49]
+2024-05-16 19:34:48,423 [MainThread] INFO UNetTrainer - Training iteration [496/6000000]. Epoch [30/49]
+2024-05-16 19:34:49,453 [MainThread] INFO UNetTrainer - Training iteration [497/6000000]. Epoch [31/49]
+2024-05-16 19:34:49,654 [MainThread] INFO UNetTrainer - Training iteration [498/6000000]. Epoch [31/49]
+2024-05-16 19:34:50,202 [MainThread] INFO UNetTrainer - Training iteration [499/6000000]. Epoch [31/49]
+2024-05-16 19:34:50,749 [MainThread] INFO UNetTrainer - Training iteration [500/6000000]. Epoch [31/49]
+2024-05-16 19:34:51,299 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:34:51,543 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:34:51,922 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:34:52,125 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:34:52,328 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:34:52,531 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:34:52,734 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:34:52,938 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:34:53,141 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:34:53,368 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.000772163271904. Evaluation score: 0.37405651807785034
+2024-05-16 19:34:53,369 [MainThread] INFO UNetTrainer - Saving new best evaluation metric: 0.37405651807785034
+2024-05-16 19:34:53,369 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:34:53,530 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.7354850471019745. Evaluation score: 0.5073745250701904
+2024-05-16 19:34:53,586 [MainThread] INFO UNetTrainer - Training iteration [501/6000000]. Epoch [31/49]
+2024-05-16 19:34:53,775 [MainThread] INFO UNetTrainer - Training iteration [502/6000000]. Epoch [31/49]
+2024-05-16 19:34:54,325 [MainThread] INFO UNetTrainer - Training iteration [503/6000000]. Epoch [31/49]
+2024-05-16 19:34:54,876 [MainThread] INFO UNetTrainer - Training iteration [504/6000000]. Epoch [31/49]
+2024-05-16 19:34:55,427 [MainThread] INFO UNetTrainer - Training iteration [505/6000000]. Epoch [31/49]
+2024-05-16 19:34:55,977 [MainThread] INFO UNetTrainer - Training iteration [506/6000000]. Epoch [31/49]
+2024-05-16 19:34:56,528 [MainThread] INFO UNetTrainer - Training iteration [507/6000000]. Epoch [31/49]
+2024-05-16 19:34:57,079 [MainThread] INFO UNetTrainer - Training iteration [508/6000000]. Epoch [31/49]
+2024-05-16 19:34:57,629 [MainThread] INFO UNetTrainer - Training iteration [509/6000000]. Epoch [31/49]
+2024-05-16 19:34:58,180 [MainThread] INFO UNetTrainer - Training iteration [510/6000000]. Epoch [31/49]
+2024-05-16 19:34:58,731 [MainThread] INFO UNetTrainer - Training iteration [511/6000000]. Epoch [31/49]
+2024-05-16 19:34:59,281 [MainThread] INFO UNetTrainer - Training iteration [512/6000000]. Epoch [31/49]
+2024-05-16 19:35:00,384 [MainThread] INFO UNetTrainer - Training iteration [513/6000000]. Epoch [32/49]
+2024-05-16 19:35:00,575 [MainThread] INFO UNetTrainer - Training iteration [514/6000000]. Epoch [32/49]
+2024-05-16 19:35:01,124 [MainThread] INFO UNetTrainer - Training iteration [515/6000000]. Epoch [32/49]
+2024-05-16 19:35:01,676 [MainThread] INFO UNetTrainer - Training iteration [516/6000000]. Epoch [32/49]
+2024-05-16 19:35:02,225 [MainThread] INFO UNetTrainer - Training iteration [517/6000000]. Epoch [32/49]
+2024-05-16 19:35:02,775 [MainThread] INFO UNetTrainer - Training iteration [518/6000000]. Epoch [32/49]
+2024-05-16 19:35:03,326 [MainThread] INFO UNetTrainer - Training iteration [519/6000000]. Epoch [32/49]
+2024-05-16 19:35:03,876 [MainThread] INFO UNetTrainer - Training iteration [520/6000000]. Epoch [32/49]
+2024-05-16 19:35:04,427 [MainThread] INFO UNetTrainer - Training iteration [521/6000000]. Epoch [32/49]
+2024-05-16 19:35:04,978 [MainThread] INFO UNetTrainer - Training iteration [522/6000000]. Epoch [32/49]
+2024-05-16 19:35:05,528 [MainThread] INFO UNetTrainer - Training iteration [523/6000000]. Epoch [32/49]
+2024-05-16 19:35:06,079 [MainThread] INFO UNetTrainer - Training iteration [524/6000000]. Epoch [32/49]
+2024-05-16 19:35:06,629 [MainThread] INFO UNetTrainer - Training iteration [525/6000000]. Epoch [32/49]
+2024-05-16 19:35:07,180 [MainThread] INFO UNetTrainer - Training iteration [526/6000000]. Epoch [32/49]
+2024-05-16 19:35:07,730 [MainThread] INFO UNetTrainer - Training iteration [527/6000000]. Epoch [32/49]
+2024-05-16 19:35:08,280 [MainThread] INFO UNetTrainer - Training iteration [528/6000000]. Epoch [32/49]
+2024-05-16 19:35:09,330 [MainThread] INFO UNetTrainer - Training iteration [529/6000000]. Epoch [33/49]
+2024-05-16 19:35:09,526 [MainThread] INFO UNetTrainer - Training iteration [530/6000000]. Epoch [33/49]
+2024-05-16 19:35:10,072 [MainThread] INFO UNetTrainer - Training iteration [531/6000000]. Epoch [33/49]
+2024-05-16 19:35:10,622 [MainThread] INFO UNetTrainer - Training iteration [532/6000000]. Epoch [33/49]
+2024-05-16 19:35:11,172 [MainThread] INFO UNetTrainer - Training iteration [533/6000000]. Epoch [33/49]
+2024-05-16 19:35:11,723 [MainThread] INFO UNetTrainer - Training iteration [534/6000000]. Epoch [33/49]
+2024-05-16 19:35:12,273 [MainThread] INFO UNetTrainer - Training iteration [535/6000000]. Epoch [33/49]
+2024-05-16 19:35:12,824 [MainThread] INFO UNetTrainer - Training iteration [536/6000000]. Epoch [33/49]
+2024-05-16 19:35:13,375 [MainThread] INFO UNetTrainer - Training iteration [537/6000000]. Epoch [33/49]
+2024-05-16 19:35:13,925 [MainThread] INFO UNetTrainer - Training iteration [538/6000000]. Epoch [33/49]
+2024-05-16 19:35:14,476 [MainThread] INFO UNetTrainer - Training iteration [539/6000000]. Epoch [33/49]
+2024-05-16 19:35:15,027 [MainThread] INFO UNetTrainer - Training iteration [540/6000000]. Epoch [33/49]
+2024-05-16 19:35:15,578 [MainThread] INFO UNetTrainer - Training iteration [541/6000000]. Epoch [33/49]
+2024-05-16 19:35:16,128 [MainThread] INFO UNetTrainer - Training iteration [542/6000000]. Epoch [33/49]
+2024-05-16 19:35:16,679 [MainThread] INFO UNetTrainer - Training iteration [543/6000000]. Epoch [33/49]
+2024-05-16 19:35:17,230 [MainThread] INFO UNetTrainer - Training iteration [544/6000000]. Epoch [33/49]
+2024-05-16 19:35:18,286 [MainThread] INFO UNetTrainer - Training iteration [545/6000000]. Epoch [34/49]
+2024-05-16 19:35:18,478 [MainThread] INFO UNetTrainer - Training iteration [546/6000000]. Epoch [34/49]
+2024-05-16 19:35:19,027 [MainThread] INFO UNetTrainer - Training iteration [547/6000000]. Epoch [34/49]
+2024-05-16 19:35:19,577 [MainThread] INFO UNetTrainer - Training iteration [548/6000000]. Epoch [34/49]
+2024-05-16 19:35:20,128 [MainThread] INFO UNetTrainer - Training iteration [549/6000000]. Epoch [34/49]
+2024-05-16 19:35:20,679 [MainThread] INFO UNetTrainer - Training iteration [550/6000000]. Epoch [34/49]
+2024-05-16 19:35:21,599 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8773344457149506. Evaluation score: 0.26680946350097656
+2024-05-16 19:35:21,663 [MainThread] INFO UNetTrainer - Training iteration [551/6000000]. Epoch [34/49]
+2024-05-16 19:35:21,852 [MainThread] INFO UNetTrainer - Training iteration [552/6000000]. Epoch [34/49]
+2024-05-16 19:35:22,402 [MainThread] INFO UNetTrainer - Training iteration [553/6000000]. Epoch [34/49]
+2024-05-16 19:35:22,953 [MainThread] INFO UNetTrainer - Training iteration [554/6000000]. Epoch [34/49]
+2024-05-16 19:35:23,504 [MainThread] INFO UNetTrainer - Training iteration [555/6000000]. Epoch [34/49]
+2024-05-16 19:35:24,054 [MainThread] INFO UNetTrainer - Training iteration [556/6000000]. Epoch [34/49]
+2024-05-16 19:35:24,606 [MainThread] INFO UNetTrainer - Training iteration [557/6000000]. Epoch [34/49]
+2024-05-16 19:35:25,157 [MainThread] INFO UNetTrainer - Training iteration [558/6000000]. Epoch [34/49]
+2024-05-16 19:35:25,707 [MainThread] INFO UNetTrainer - Training iteration [559/6000000]. Epoch [34/49]
+2024-05-16 19:35:26,258 [MainThread] INFO UNetTrainer - Training iteration [560/6000000]. Epoch [34/49]
+2024-05-16 19:35:27,384 [MainThread] INFO UNetTrainer - Training iteration [561/6000000]. Epoch [35/49]
+2024-05-16 19:35:27,575 [MainThread] INFO UNetTrainer - Training iteration [562/6000000]. Epoch [35/49]
+2024-05-16 19:35:28,125 [MainThread] INFO UNetTrainer - Training iteration [563/6000000]. Epoch [35/49]
+2024-05-16 19:35:28,675 [MainThread] INFO UNetTrainer - Training iteration [564/6000000]. Epoch [35/49]
+2024-05-16 19:35:29,225 [MainThread] INFO UNetTrainer - Training iteration [565/6000000]. Epoch [35/49]
+2024-05-16 19:35:29,776 [MainThread] INFO UNetTrainer - Training iteration [566/6000000]. Epoch [35/49]
+2024-05-16 19:35:30,327 [MainThread] INFO UNetTrainer - Training iteration [567/6000000]. Epoch [35/49]
+2024-05-16 19:35:30,878 [MainThread] INFO UNetTrainer - Training iteration [568/6000000]. Epoch [35/49]
+2024-05-16 19:35:31,428 [MainThread] INFO UNetTrainer - Training iteration [569/6000000]. Epoch [35/49]
+2024-05-16 19:35:31,979 [MainThread] INFO UNetTrainer - Training iteration [570/6000000]. Epoch [35/49]
+2024-05-16 19:35:32,529 [MainThread] INFO UNetTrainer - Training iteration [571/6000000]. Epoch [35/49]
+2024-05-16 19:35:33,080 [MainThread] INFO UNetTrainer - Training iteration [572/6000000]. Epoch [35/49]
+2024-05-16 19:35:33,631 [MainThread] INFO UNetTrainer - Training iteration [573/6000000]. Epoch [35/49]
+2024-05-16 19:35:34,182 [MainThread] INFO UNetTrainer - Training iteration [574/6000000]. Epoch [35/49]
+2024-05-16 19:35:34,732 [MainThread] INFO UNetTrainer - Training iteration [575/6000000]. Epoch [35/49]
+2024-05-16 19:35:35,283 [MainThread] INFO UNetTrainer - Training iteration [576/6000000]. Epoch [35/49]
+2024-05-16 19:35:36,330 [MainThread] INFO UNetTrainer - Training iteration [577/6000000]. Epoch [36/49]
+2024-05-16 19:35:36,523 [MainThread] INFO UNetTrainer - Training iteration [578/6000000]. Epoch [36/49]
+2024-05-16 19:35:37,072 [MainThread] INFO UNetTrainer - Training iteration [579/6000000]. Epoch [36/49]
+2024-05-16 19:35:37,622 [MainThread] INFO UNetTrainer - Training iteration [580/6000000]. Epoch [36/49]
+2024-05-16 19:35:38,172 [MainThread] INFO UNetTrainer - Training iteration [581/6000000]. Epoch [36/49]
+2024-05-16 19:35:38,724 [MainThread] INFO UNetTrainer - Training iteration [582/6000000]. Epoch [36/49]
+2024-05-16 19:35:39,274 [MainThread] INFO UNetTrainer - Training iteration [583/6000000]. Epoch [36/49]
+2024-05-16 19:35:39,826 [MainThread] INFO UNetTrainer - Training iteration [584/6000000]. Epoch [36/49]
+2024-05-16 19:35:40,377 [MainThread] INFO UNetTrainer - Training iteration [585/6000000]. Epoch [36/49]
+2024-05-16 19:35:40,928 [MainThread] INFO UNetTrainer - Training iteration [586/6000000]. Epoch [36/49]
+2024-05-16 19:35:41,479 [MainThread] INFO UNetTrainer - Training iteration [587/6000000]. Epoch [36/49]
+2024-05-16 19:35:42,030 [MainThread] INFO UNetTrainer - Training iteration [588/6000000]. Epoch [36/49]
+2024-05-16 19:35:42,582 [MainThread] INFO UNetTrainer - Training iteration [589/6000000]. Epoch [36/49]
+2024-05-16 19:35:43,132 [MainThread] INFO UNetTrainer - Training iteration [590/6000000]. Epoch [36/49]
+2024-05-16 19:35:43,683 [MainThread] INFO UNetTrainer - Training iteration [591/6000000]. Epoch [36/49]
+2024-05-16 19:35:44,234 [MainThread] INFO UNetTrainer - Training iteration [592/6000000]. Epoch [36/49]
+2024-05-16 19:35:45,276 [MainThread] INFO UNetTrainer - Training iteration [593/6000000]. Epoch [37/49]
+2024-05-16 19:35:45,477 [MainThread] INFO UNetTrainer - Training iteration [594/6000000]. Epoch [37/49]
+2024-05-16 19:35:46,021 [MainThread] INFO UNetTrainer - Training iteration [595/6000000]. Epoch [37/49]
+2024-05-16 19:35:46,569 [MainThread] INFO UNetTrainer - Training iteration [596/6000000]. Epoch [37/49]
+2024-05-16 19:35:47,120 [MainThread] INFO UNetTrainer - Training iteration [597/6000000]. Epoch [37/49]
+2024-05-16 19:35:47,671 [MainThread] INFO UNetTrainer - Training iteration [598/6000000]. Epoch [37/49]
+2024-05-16 19:35:48,221 [MainThread] INFO UNetTrainer - Training iteration [599/6000000]. Epoch [37/49]
+2024-05-16 19:35:48,772 [MainThread] INFO UNetTrainer - Training iteration [600/6000000]. Epoch [37/49]
+2024-05-16 19:35:49,323 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:35:49,576 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:35:49,948 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:35:50,151 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:35:50,355 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:35:50,558 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:35:50,762 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:35:50,966 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:35:51,170 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:35:51,397 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0420863628387451. Evaluation score: 0.3338720127940178
+2024-05-16 19:35:51,398 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:35:51,502 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.7529472857713699. Evaluation score: 0.24691100418567657
+2024-05-16 19:35:51,564 [MainThread] INFO UNetTrainer - Training iteration [601/6000000]. Epoch [37/49]
+2024-05-16 19:35:51,753 [MainThread] INFO UNetTrainer - Training iteration [602/6000000]. Epoch [37/49]
+2024-05-16 19:35:52,303 [MainThread] INFO UNetTrainer - Training iteration [603/6000000]. Epoch [37/49]
+2024-05-16 19:35:52,854 [MainThread] INFO UNetTrainer - Training iteration [604/6000000]. Epoch [37/49]
+2024-05-16 19:35:53,404 [MainThread] INFO UNetTrainer - Training iteration [605/6000000]. Epoch [37/49]
+2024-05-16 19:35:53,955 [MainThread] INFO UNetTrainer - Training iteration [606/6000000]. Epoch [37/49]
+2024-05-16 19:35:54,506 [MainThread] INFO UNetTrainer - Training iteration [607/6000000]. Epoch [37/49]
+2024-05-16 19:35:55,057 [MainThread] INFO UNetTrainer - Training iteration [608/6000000]. Epoch [37/49]
+2024-05-16 19:35:56,071 [MainThread] INFO UNetTrainer - Training iteration [609/6000000]. Epoch [38/49]
+2024-05-16 19:35:56,268 [MainThread] INFO UNetTrainer - Training iteration [610/6000000]. Epoch [38/49]
+2024-05-16 19:35:56,815 [MainThread] INFO UNetTrainer - Training iteration [611/6000000]. Epoch [38/49]
+2024-05-16 19:35:57,365 [MainThread] INFO UNetTrainer - Training iteration [612/6000000]. Epoch [38/49]
+2024-05-16 19:35:57,915 [MainThread] INFO UNetTrainer - Training iteration [613/6000000]. Epoch [38/49]
+2024-05-16 19:35:58,466 [MainThread] INFO UNetTrainer - Training iteration [614/6000000]. Epoch [38/49]
+2024-05-16 19:35:59,017 [MainThread] INFO UNetTrainer - Training iteration [615/6000000]. Epoch [38/49]
+2024-05-16 19:35:59,568 [MainThread] INFO UNetTrainer - Training iteration [616/6000000]. Epoch [38/49]
+2024-05-16 19:36:00,119 [MainThread] INFO UNetTrainer - Training iteration [617/6000000]. Epoch [38/49]
+2024-05-16 19:36:00,670 [MainThread] INFO UNetTrainer - Training iteration [618/6000000]. Epoch [38/49]
+2024-05-16 19:36:01,222 [MainThread] INFO UNetTrainer - Training iteration [619/6000000]. Epoch [38/49]
+2024-05-16 19:36:01,772 [MainThread] INFO UNetTrainer - Training iteration [620/6000000]. Epoch [38/49]
+2024-05-16 19:36:02,322 [MainThread] INFO UNetTrainer - Training iteration [621/6000000]. Epoch [38/49]
+2024-05-16 19:36:02,873 [MainThread] INFO UNetTrainer - Training iteration [622/6000000]. Epoch [38/49]
+2024-05-16 19:36:03,423 [MainThread] INFO UNetTrainer - Training iteration [623/6000000]. Epoch [38/49]
+2024-05-16 19:36:03,974 [MainThread] INFO UNetTrainer - Training iteration [624/6000000]. Epoch [38/49]
+2024-05-16 19:36:05,024 [MainThread] INFO UNetTrainer - Training iteration [625/6000000]. Epoch [39/49]
+2024-05-16 19:36:05,222 [MainThread] INFO UNetTrainer - Training iteration [626/6000000]. Epoch [39/49]
+2024-05-16 19:36:05,766 [MainThread] INFO UNetTrainer - Training iteration [627/6000000]. Epoch [39/49]
+2024-05-16 19:36:06,316 [MainThread] INFO UNetTrainer - Training iteration [628/6000000]. Epoch [39/49]
+2024-05-16 19:36:06,867 [MainThread] INFO UNetTrainer - Training iteration [629/6000000]. Epoch [39/49]
+2024-05-16 19:36:07,417 [MainThread] INFO UNetTrainer - Training iteration [630/6000000]. Epoch [39/49]
+2024-05-16 19:36:07,968 [MainThread] INFO UNetTrainer - Training iteration [631/6000000]. Epoch [39/49]
+2024-05-16 19:36:08,519 [MainThread] INFO UNetTrainer - Training iteration [632/6000000]. Epoch [39/49]
+2024-05-16 19:36:09,069 [MainThread] INFO UNetTrainer - Training iteration [633/6000000]. Epoch [39/49]
+2024-05-16 19:36:09,620 [MainThread] INFO UNetTrainer - Training iteration [634/6000000]. Epoch [39/49]
+2024-05-16 19:36:10,172 [MainThread] INFO UNetTrainer - Training iteration [635/6000000]. Epoch [39/49]
+2024-05-16 19:36:10,722 [MainThread] INFO UNetTrainer - Training iteration [636/6000000]. Epoch [39/49]
+2024-05-16 19:36:11,272 [MainThread] INFO UNetTrainer - Training iteration [637/6000000]. Epoch [39/49]
+2024-05-16 19:36:11,823 [MainThread] INFO UNetTrainer - Training iteration [638/6000000]. Epoch [39/49]
+2024-05-16 19:36:12,374 [MainThread] INFO UNetTrainer - Training iteration [639/6000000]. Epoch [39/49]
+2024-05-16 19:36:12,924 [MainThread] INFO UNetTrainer - Training iteration [640/6000000]. Epoch [39/49]
+2024-05-16 19:36:13,931 [MainThread] INFO UNetTrainer - Training iteration [641/6000000]. Epoch [40/49]
+2024-05-16 19:36:14,127 [MainThread] INFO UNetTrainer - Training iteration [642/6000000]. Epoch [40/49]
+2024-05-16 19:36:14,674 [MainThread] INFO UNetTrainer - Training iteration [643/6000000]. Epoch [40/49]
+2024-05-16 19:36:15,224 [MainThread] INFO UNetTrainer - Training iteration [644/6000000]. Epoch [40/49]
+2024-05-16 19:36:15,774 [MainThread] INFO UNetTrainer - Training iteration [645/6000000]. Epoch [40/49]
+2024-05-16 19:36:16,325 [MainThread] INFO UNetTrainer - Training iteration [646/6000000]. Epoch [40/49]
+2024-05-16 19:36:16,876 [MainThread] INFO UNetTrainer - Training iteration [647/6000000]. Epoch [40/49]
+2024-05-16 19:36:17,426 [MainThread] INFO UNetTrainer - Training iteration [648/6000000]. Epoch [40/49]
+2024-05-16 19:36:17,976 [MainThread] INFO UNetTrainer - Training iteration [649/6000000]. Epoch [40/49]
+2024-05-16 19:36:18,527 [MainThread] INFO UNetTrainer - Training iteration [650/6000000]. Epoch [40/49]
+2024-05-16 19:36:19,448 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8195045948028564. Evaluation score: 0.4834461212158203
+2024-05-16 19:36:19,504 [MainThread] INFO UNetTrainer - Training iteration [651/6000000]. Epoch [40/49]
+2024-05-16 19:36:19,692 [MainThread] INFO UNetTrainer - Training iteration [652/6000000]. Epoch [40/49]
+2024-05-16 19:36:20,243 [MainThread] INFO UNetTrainer - Training iteration [653/6000000]. Epoch [40/49]
+2024-05-16 19:36:20,793 [MainThread] INFO UNetTrainer - Training iteration [654/6000000]. Epoch [40/49]
+2024-05-16 19:36:21,344 [MainThread] INFO UNetTrainer - Training iteration [655/6000000]. Epoch [40/49]
+2024-05-16 19:36:21,895 [MainThread] INFO UNetTrainer - Training iteration [656/6000000]. Epoch [40/49]
+2024-05-16 19:36:22,886 [MainThread] INFO UNetTrainer - Training iteration [657/6000000]. Epoch [41/49]
+2024-05-16 19:36:23,082 [MainThread] INFO UNetTrainer - Training iteration [658/6000000]. Epoch [41/49]
+2024-05-16 19:36:23,629 [MainThread] INFO UNetTrainer - Training iteration [659/6000000]. Epoch [41/49]
+2024-05-16 19:36:24,180 [MainThread] INFO UNetTrainer - Training iteration [660/6000000]. Epoch [41/49]
+2024-05-16 19:36:24,730 [MainThread] INFO UNetTrainer - Training iteration [661/6000000]. Epoch [41/49]
+2024-05-16 19:36:25,281 [MainThread] INFO UNetTrainer - Training iteration [662/6000000]. Epoch [41/49]
+2024-05-16 19:36:25,831 [MainThread] INFO UNetTrainer - Training iteration [663/6000000]. Epoch [41/49]
+2024-05-16 19:36:26,382 [MainThread] INFO UNetTrainer - Training iteration [664/6000000]. Epoch [41/49]
+2024-05-16 19:36:26,932 [MainThread] INFO UNetTrainer - Training iteration [665/6000000]. Epoch [41/49]
+2024-05-16 19:36:27,483 [MainThread] INFO UNetTrainer - Training iteration [666/6000000]. Epoch [41/49]
+2024-05-16 19:36:28,034 [MainThread] INFO UNetTrainer - Training iteration [667/6000000]. Epoch [41/49]
+2024-05-16 19:36:28,584 [MainThread] INFO UNetTrainer - Training iteration [668/6000000]. Epoch [41/49]
+2024-05-16 19:36:29,135 [MainThread] INFO UNetTrainer - Training iteration [669/6000000]. Epoch [41/49]
+2024-05-16 19:36:29,686 [MainThread] INFO UNetTrainer - Training iteration [670/6000000]. Epoch [41/49]
+2024-05-16 19:36:30,237 [MainThread] INFO UNetTrainer - Training iteration [671/6000000]. Epoch [41/49]
+2024-05-16 19:36:30,788 [MainThread] INFO UNetTrainer - Training iteration [672/6000000]. Epoch [41/49]
+2024-05-16 19:36:31,771 [MainThread] INFO UNetTrainer - Training iteration [673/6000000]. Epoch [42/49]
+2024-05-16 19:36:31,976 [MainThread] INFO UNetTrainer - Training iteration [674/6000000]. Epoch [42/49]
+2024-05-16 19:36:32,513 [MainThread] INFO UNetTrainer - Training iteration [675/6000000]. Epoch [42/49]
+2024-05-16 19:36:33,064 [MainThread] INFO UNetTrainer - Training iteration [676/6000000]. Epoch [42/49]
+2024-05-16 19:36:33,614 [MainThread] INFO UNetTrainer - Training iteration [677/6000000]. Epoch [42/49]
+2024-05-16 19:36:34,165 [MainThread] INFO UNetTrainer - Training iteration [678/6000000]. Epoch [42/49]
+2024-05-16 19:36:34,716 [MainThread] INFO UNetTrainer - Training iteration [679/6000000]. Epoch [42/49]
+2024-05-16 19:36:35,268 [MainThread] INFO UNetTrainer - Training iteration [680/6000000]. Epoch [42/49]
+2024-05-16 19:36:35,819 [MainThread] INFO UNetTrainer - Training iteration [681/6000000]. Epoch [42/49]
+2024-05-16 19:36:36,370 [MainThread] INFO UNetTrainer - Training iteration [682/6000000]. Epoch [42/49]
+2024-05-16 19:36:36,922 [MainThread] INFO UNetTrainer - Training iteration [683/6000000]. Epoch [42/49]
+2024-05-16 19:36:37,472 [MainThread] INFO UNetTrainer - Training iteration [684/6000000]. Epoch [42/49]
+2024-05-16 19:36:38,023 [MainThread] INFO UNetTrainer - Training iteration [685/6000000]. Epoch [42/49]
+2024-05-16 19:36:38,574 [MainThread] INFO UNetTrainer - Training iteration [686/6000000]. Epoch [42/49]
+2024-05-16 19:36:39,124 [MainThread] INFO UNetTrainer - Training iteration [687/6000000]. Epoch [42/49]
+2024-05-16 19:36:39,675 [MainThread] INFO UNetTrainer - Training iteration [688/6000000]. Epoch [42/49]
+2024-05-16 19:36:40,656 [MainThread] INFO UNetTrainer - Training iteration [689/6000000]. Epoch [43/49]
+2024-05-16 19:36:40,857 [MainThread] INFO UNetTrainer - Training iteration [690/6000000]. Epoch [43/49]
+2024-05-16 19:36:41,399 [MainThread] INFO UNetTrainer - Training iteration [691/6000000]. Epoch [43/49]
+2024-05-16 19:36:41,950 [MainThread] INFO UNetTrainer - Training iteration [692/6000000]. Epoch [43/49]
+2024-05-16 19:36:42,501 [MainThread] INFO UNetTrainer - Training iteration [693/6000000]. Epoch [43/49]
+2024-05-16 19:36:43,052 [MainThread] INFO UNetTrainer - Training iteration [694/6000000]. Epoch [43/49]
+2024-05-16 19:36:43,603 [MainThread] INFO UNetTrainer - Training iteration [695/6000000]. Epoch [43/49]
+2024-05-16 19:36:44,154 [MainThread] INFO UNetTrainer - Training iteration [696/6000000]. Epoch [43/49]
+2024-05-16 19:36:44,704 [MainThread] INFO UNetTrainer - Training iteration [697/6000000]. Epoch [43/49]
+2024-05-16 19:36:45,256 [MainThread] INFO UNetTrainer - Training iteration [698/6000000]. Epoch [43/49]
+2024-05-16 19:36:45,807 [MainThread] INFO UNetTrainer - Training iteration [699/6000000]. Epoch [43/49]
+2024-05-16 19:36:46,358 [MainThread] INFO UNetTrainer - Training iteration [700/6000000]. Epoch [43/49]
+2024-05-16 19:36:46,909 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:36:47,162 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:36:47,531 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:36:47,735 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:36:47,939 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:36:48,142 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:36:48,346 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:36:48,549 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:36:48,753 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:36:48,981 [MainThread] INFO UNetTrainer - Validation finished. Loss: 1.0135562792420387. Evaluation score: 0.3528049923479557
+2024-05-16 19:36:48,982 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:36:49,083 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.8250293085972468. Evaluation score: 0.2690197229385376
+2024-05-16 19:36:49,145 [MainThread] INFO UNetTrainer - Training iteration [701/6000000]. Epoch [43/49]
+2024-05-16 19:36:49,334 [MainThread] INFO UNetTrainer - Training iteration [702/6000000]. Epoch [43/49]
+2024-05-16 19:36:49,884 [MainThread] INFO UNetTrainer - Training iteration [703/6000000]. Epoch [43/49]
+2024-05-16 19:36:50,435 [MainThread] INFO UNetTrainer - Training iteration [704/6000000]. Epoch [43/49]
+2024-05-16 19:36:51,602 [MainThread] INFO UNetTrainer - Training iteration [705/6000000]. Epoch [44/49]
+2024-05-16 19:36:51,795 [MainThread] INFO UNetTrainer - Training iteration [706/6000000]. Epoch [44/49]
+2024-05-16 19:36:52,344 [MainThread] INFO UNetTrainer - Training iteration [707/6000000]. Epoch [44/49]
+2024-05-16 19:36:52,895 [MainThread] INFO UNetTrainer - Training iteration [708/6000000]. Epoch [44/49]
+2024-05-16 19:36:53,445 [MainThread] INFO UNetTrainer - Training iteration [709/6000000]. Epoch [44/49]
+2024-05-16 19:36:53,996 [MainThread] INFO UNetTrainer - Training iteration [710/6000000]. Epoch [44/49]
+2024-05-16 19:36:54,546 [MainThread] INFO UNetTrainer - Training iteration [711/6000000]. Epoch [44/49]
+2024-05-16 19:36:55,097 [MainThread] INFO UNetTrainer - Training iteration [712/6000000]. Epoch [44/49]
+2024-05-16 19:36:55,648 [MainThread] INFO UNetTrainer - Training iteration [713/6000000]. Epoch [44/49]
+2024-05-16 19:36:56,198 [MainThread] INFO UNetTrainer - Training iteration [714/6000000]. Epoch [44/49]
+2024-05-16 19:36:56,749 [MainThread] INFO UNetTrainer - Training iteration [715/6000000]. Epoch [44/49]
+2024-05-16 19:36:57,300 [MainThread] INFO UNetTrainer - Training iteration [716/6000000]. Epoch [44/49]
+2024-05-16 19:36:57,851 [MainThread] INFO UNetTrainer - Training iteration [717/6000000]. Epoch [44/49]
+2024-05-16 19:36:58,402 [MainThread] INFO UNetTrainer - Training iteration [718/6000000]. Epoch [44/49]
+2024-05-16 19:36:58,953 [MainThread] INFO UNetTrainer - Training iteration [719/6000000]. Epoch [44/49]
+2024-05-16 19:36:59,503 [MainThread] INFO UNetTrainer - Training iteration [720/6000000]. Epoch [44/49]
+2024-05-16 19:37:00,510 [MainThread] INFO UNetTrainer - Training iteration [721/6000000]. Epoch [45/49]
+2024-05-16 19:37:00,711 [MainThread] INFO UNetTrainer - Training iteration [722/6000000]. Epoch [45/49]
+2024-05-16 19:37:01,259 [MainThread] INFO UNetTrainer - Training iteration [723/6000000]. Epoch [45/49]
+2024-05-16 19:37:01,805 [MainThread] INFO UNetTrainer - Training iteration [724/6000000]. Epoch [45/49]
+2024-05-16 19:37:02,355 [MainThread] INFO UNetTrainer - Training iteration [725/6000000]. Epoch [45/49]
+2024-05-16 19:37:02,906 [MainThread] INFO UNetTrainer - Training iteration [726/6000000]. Epoch [45/49]
+2024-05-16 19:37:03,457 [MainThread] INFO UNetTrainer - Training iteration [727/6000000]. Epoch [45/49]
+2024-05-16 19:37:04,007 [MainThread] INFO UNetTrainer - Training iteration [728/6000000]. Epoch [45/49]
+2024-05-16 19:37:04,558 [MainThread] INFO UNetTrainer - Training iteration [729/6000000]. Epoch [45/49]
+2024-05-16 19:37:05,109 [MainThread] INFO UNetTrainer - Training iteration [730/6000000]. Epoch [45/49]
+2024-05-16 19:37:05,660 [MainThread] INFO UNetTrainer - Training iteration [731/6000000]. Epoch [45/49]
+2024-05-16 19:37:06,210 [MainThread] INFO UNetTrainer - Training iteration [732/6000000]. Epoch [45/49]
+2024-05-16 19:37:06,761 [MainThread] INFO UNetTrainer - Training iteration [733/6000000]. Epoch [45/49]
+2024-05-16 19:37:07,313 [MainThread] INFO UNetTrainer - Training iteration [734/6000000]. Epoch [45/49]
+2024-05-16 19:37:07,863 [MainThread] INFO UNetTrainer - Training iteration [735/6000000]. Epoch [45/49]
+2024-05-16 19:37:08,414 [MainThread] INFO UNetTrainer - Training iteration [736/6000000]. Epoch [45/49]
+2024-05-16 19:37:09,475 [MainThread] INFO UNetTrainer - Training iteration [737/6000000]. Epoch [46/49]
+2024-05-16 19:37:09,671 [MainThread] INFO UNetTrainer - Training iteration [738/6000000]. Epoch [46/49]
+2024-05-16 19:37:10,216 [MainThread] INFO UNetTrainer - Training iteration [739/6000000]. Epoch [46/49]
+2024-05-16 19:37:10,767 [MainThread] INFO UNetTrainer - Training iteration [740/6000000]. Epoch [46/49]
+2024-05-16 19:37:11,317 [MainThread] INFO UNetTrainer - Training iteration [741/6000000]. Epoch [46/49]
+2024-05-16 19:37:11,868 [MainThread] INFO UNetTrainer - Training iteration [742/6000000]. Epoch [46/49]
+2024-05-16 19:37:12,419 [MainThread] INFO UNetTrainer - Training iteration [743/6000000]. Epoch [46/49]
+2024-05-16 19:37:12,971 [MainThread] INFO UNetTrainer - Training iteration [744/6000000]. Epoch [46/49]
+2024-05-16 19:37:13,521 [MainThread] INFO UNetTrainer - Training iteration [745/6000000]. Epoch [46/49]
+2024-05-16 19:37:14,072 [MainThread] INFO UNetTrainer - Training iteration [746/6000000]. Epoch [46/49]
+2024-05-16 19:37:14,623 [MainThread] INFO UNetTrainer - Training iteration [747/6000000]. Epoch [46/49]
+2024-05-16 19:37:15,174 [MainThread] INFO UNetTrainer - Training iteration [748/6000000]. Epoch [46/49]
+2024-05-16 19:37:15,725 [MainThread] INFO UNetTrainer - Training iteration [749/6000000]. Epoch [46/49]
+2024-05-16 19:37:16,276 [MainThread] INFO UNetTrainer - Training iteration [750/6000000]. Epoch [46/49]
+2024-05-16 19:37:17,197 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.7677841388753482. Evaluation score: 0.5258708596229553
+2024-05-16 19:37:17,254 [MainThread] INFO UNetTrainer - Training iteration [751/6000000]. Epoch [46/49]
+2024-05-16 19:37:17,443 [MainThread] INFO UNetTrainer - Training iteration [752/6000000]. Epoch [46/49]
+2024-05-16 19:37:18,544 [MainThread] INFO UNetTrainer - Training iteration [753/6000000]. Epoch [47/49]
+2024-05-16 19:37:18,736 [MainThread] INFO UNetTrainer - Training iteration [754/6000000]. Epoch [47/49]
+2024-05-16 19:37:19,286 [MainThread] INFO UNetTrainer - Training iteration [755/6000000]. Epoch [47/49]
+2024-05-16 19:37:19,837 [MainThread] INFO UNetTrainer - Training iteration [756/6000000]. Epoch [47/49]
+2024-05-16 19:37:20,387 [MainThread] INFO UNetTrainer - Training iteration [757/6000000]. Epoch [47/49]
+2024-05-16 19:37:20,939 [MainThread] INFO UNetTrainer - Training iteration [758/6000000]. Epoch [47/49]
+2024-05-16 19:37:21,489 [MainThread] INFO UNetTrainer - Training iteration [759/6000000]. Epoch [47/49]
+2024-05-16 19:37:22,041 [MainThread] INFO UNetTrainer - Training iteration [760/6000000]. Epoch [47/49]
+2024-05-16 19:37:22,591 [MainThread] INFO UNetTrainer - Training iteration [761/6000000]. Epoch [47/49]
+2024-05-16 19:37:23,142 [MainThread] INFO UNetTrainer - Training iteration [762/6000000]. Epoch [47/49]
+2024-05-16 19:37:23,693 [MainThread] INFO UNetTrainer - Training iteration [763/6000000]. Epoch [47/49]
+2024-05-16 19:37:24,243 [MainThread] INFO UNetTrainer - Training iteration [764/6000000]. Epoch [47/49]
+2024-05-16 19:37:24,794 [MainThread] INFO UNetTrainer - Training iteration [765/6000000]. Epoch [47/49]
+2024-05-16 19:37:25,345 [MainThread] INFO UNetTrainer - Training iteration [766/6000000]. Epoch [47/49]
+2024-05-16 19:37:25,896 [MainThread] INFO UNetTrainer - Training iteration [767/6000000]. Epoch [47/49]
+2024-05-16 19:37:26,446 [MainThread] INFO UNetTrainer - Training iteration [768/6000000]. Epoch [47/49]
+2024-05-16 19:37:27,429 [MainThread] INFO UNetTrainer - Training iteration [769/6000000]. Epoch [48/49]
+2024-05-16 19:37:27,630 [MainThread] INFO UNetTrainer - Training iteration [770/6000000]. Epoch [48/49]
+2024-05-16 19:37:28,177 [MainThread] INFO UNetTrainer - Training iteration [771/6000000]. Epoch [48/49]
+2024-05-16 19:37:28,725 [MainThread] INFO UNetTrainer - Training iteration [772/6000000]. Epoch [48/49]
+2024-05-16 19:37:29,273 [MainThread] INFO UNetTrainer - Training iteration [773/6000000]. Epoch [48/49]
+2024-05-16 19:37:29,825 [MainThread] INFO UNetTrainer - Training iteration [774/6000000]. Epoch [48/49]
+2024-05-16 19:37:30,376 [MainThread] INFO UNetTrainer - Training iteration [775/6000000]. Epoch [48/49]
+2024-05-16 19:37:30,926 [MainThread] INFO UNetTrainer - Training iteration [776/6000000]. Epoch [48/49]
+2024-05-16 19:37:31,477 [MainThread] INFO UNetTrainer - Training iteration [777/6000000]. Epoch [48/49]
+2024-05-16 19:37:32,028 [MainThread] INFO UNetTrainer - Training iteration [778/6000000]. Epoch [48/49]
+2024-05-16 19:37:32,579 [MainThread] INFO UNetTrainer - Training iteration [779/6000000]. Epoch [48/49]
+2024-05-16 19:37:33,129 [MainThread] INFO UNetTrainer - Training iteration [780/6000000]. Epoch [48/49]
+2024-05-16 19:37:33,681 [MainThread] INFO UNetTrainer - Training iteration [781/6000000]. Epoch [48/49]
+2024-05-16 19:37:34,231 [MainThread] INFO UNetTrainer - Training iteration [782/6000000]. Epoch [48/49]
+2024-05-16 19:37:34,782 [MainThread] INFO UNetTrainer - Training iteration [783/6000000]. Epoch [48/49]
+2024-05-16 19:37:35,333 [MainThread] INFO UNetTrainer - Training iteration [784/6000000]. Epoch [48/49]
+2024-05-16 19:37:36,358 [MainThread] INFO UNetTrainer - Training iteration [785/6000000]. Epoch [49/49]
+2024-05-16 19:37:36,558 [MainThread] INFO UNetTrainer - Training iteration [786/6000000]. Epoch [49/49]
+2024-05-16 19:37:37,105 [MainThread] INFO UNetTrainer - Training iteration [787/6000000]. Epoch [49/49]
+2024-05-16 19:37:37,655 [MainThread] INFO UNetTrainer - Training iteration [788/6000000]. Epoch [49/49]
+2024-05-16 19:37:38,202 [MainThread] INFO UNetTrainer - Training iteration [789/6000000]. Epoch [49/49]
+2024-05-16 19:37:38,753 [MainThread] INFO UNetTrainer - Training iteration [790/6000000]. Epoch [49/49]
+2024-05-16 19:37:39,304 [MainThread] INFO UNetTrainer - Training iteration [791/6000000]. Epoch [49/49]
+2024-05-16 19:37:39,855 [MainThread] INFO UNetTrainer - Training iteration [792/6000000]. Epoch [49/49]
+2024-05-16 19:37:40,406 [MainThread] INFO UNetTrainer - Training iteration [793/6000000]. Epoch [49/49]
+2024-05-16 19:37:40,957 [MainThread] INFO UNetTrainer - Training iteration [794/6000000]. Epoch [49/49]
+2024-05-16 19:37:41,507 [MainThread] INFO UNetTrainer - Training iteration [795/6000000]. Epoch [49/49]
+2024-05-16 19:37:42,058 [MainThread] INFO UNetTrainer - Training iteration [796/6000000]. Epoch [49/49]
+2024-05-16 19:37:42,608 [MainThread] INFO UNetTrainer - Training iteration [797/6000000]. Epoch [49/49]
+2024-05-16 19:37:43,159 [MainThread] INFO UNetTrainer - Training iteration [798/6000000]. Epoch [49/49]
+2024-05-16 19:37:43,710 [MainThread] INFO UNetTrainer - Training iteration [799/6000000]. Epoch [49/49]
+2024-05-16 19:37:44,261 [MainThread] INFO UNetTrainer - Training iteration [800/6000000]. Epoch [49/49]
+2024-05-16 19:37:44,812 [MainThread] INFO UNetTrainer - Validating...
+2024-05-16 19:37:45,085 [MainThread] INFO UNetTrainer - Validation iteration 0
+2024-05-16 19:37:45,433 [MainThread] INFO UNetTrainer - Validation iteration 1
+2024-05-16 19:37:45,637 [MainThread] INFO UNetTrainer - Validation iteration 2
+2024-05-16 19:37:45,841 [MainThread] INFO UNetTrainer - Validation iteration 3
+2024-05-16 19:37:46,045 [MainThread] INFO UNetTrainer - Validation iteration 4
+2024-05-16 19:37:46,248 [MainThread] INFO UNetTrainer - Validation iteration 5
+2024-05-16 19:37:46,452 [MainThread] INFO UNetTrainer - Validation iteration 6
+2024-05-16 19:37:46,656 [MainThread] INFO UNetTrainer - Validation iteration 7
+2024-05-16 19:37:46,883 [MainThread] INFO UNetTrainer - Validation finished. Loss: 0.996760867536068. Evaluation score: 0.3696383982896805
+2024-05-16 19:37:46,884 [MainThread] INFO UNetTrainer - Saving checkpoint to '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch'
+2024-05-16 19:37:46,987 [MainThread] INFO UNetTrainer - Training stats. Loss: 0.6829452514648438. Evaluation score: 0.3689533770084381
+2024-05-16 19:37:47,077 [MainThread] INFO UNetTrainer - Reached maximum number of epochs: 50. Finishing training...

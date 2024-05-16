@@ -1,0 +1,152 @@
+wandb_version: 1
+
+model:
+  desc: null
+  value:
+    name: ResidualUNetSE3D
+    in_channels: 1
+    out_channels: 3
+    layer_order: gcr
+    f_maps:
+    - 32
+    - 64
+    - 128
+    - 256
+    num_groups: 8
+    final_sigmoid: false
+    is_segmentation: true
+    manual_seed: 42
+trainer:
+  desc: null
+  value:
+    checkpoint_dir: /home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints
+    resume: null
+    pre_trained: null
+    validate_after_iters: 10
+    log_after_iters: 10
+    max_num_epochs: 50
+    max_num_iterations: 6000000
+    eval_score_higher_is_better: true
+loss:
+  desc: null
+  value:
+    name: WeightedCrossEntropyLoss
+optimizer:
+  desc: null
+  value:
+    learning_rate: 0.0002
+    weight_decay: 1.0e-05
+eval_metric:
+  desc: null
+  value:
+    name: MeanIoU
+lr_scheduler:
+  desc: null
+  value:
+    name: ReduceLROnPlateau
+    mode: max
+    factor: 0.2
+    patience: 8
+loaders:
+  desc: null
+  value:
+    dataset: StandardHDF5Dataset
+    batch_size: 1
+    num_workers: 8
+    raw_internal_path: raw/
+    label_internal_path: label/
+    weight_internal_path: null
+    train:
+      file_paths:
+      - /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset
+      slice_builder:
+        name: FilterSliceBuilder
+        patch_shape:
+        - 180
+        - 180
+        - 180
+        stride_shape:
+        - 76
+        - 76
+        - 76
+        threshold: 0.01
+        slack_acceptance: 0.01
+      transformer:
+        raw:
+        - name: Standardize
+        - name: RandomContrast
+        - name: RandomFlip
+        - name: RandomRotate90
+        - name: RandomRotate
+          axes: null
+          angle_spectrum: 30
+          mode: reflect
+        - name: ToTensor
+          expand_dims: true
+        label:
+        - name: RandomFlip
+        - name: RandomRotate90
+        - name: RandomRotate
+          axes:
+          - - 0
+            - 1
+          - - 0
+            - 2
+          - - 1
+            - 2
+          angle_spectrum: 30
+          mode: reflect
+        - name: ToTensor
+          expand_dims: false
+          dtype: long
+    val:
+      file_paths:
+      - /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/val/dataset
+      slice_builder:
+        name: FilterSliceBuilder
+        patch_shape:
+        - 180
+        - 180
+        - 180
+        stride_shape:
+        - 76
+        - 76
+        - 76
+        threshold: 0.01
+        slack_acceptance: 0.01
+      transformer:
+        raw:
+        - name: Standardize
+        - name: ToTensor
+          expand_dims: true
+        label:
+        - name: ToTensor
+          expand_dims: false
+          dtype: long
+device:
+  desc: null
+  value: cuda
+_wandb:
+  desc: null
+  value:
+    python_version: 3.12.3
+    cli_version: 0.17.0
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1715901561
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 16
+      - 23
+      4: 3.12.3
+      5: 0.17.0
+      8:
+      - 5
+      13: linux-x86_64

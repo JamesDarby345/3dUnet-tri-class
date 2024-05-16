@@ -1,0 +1,1 @@
+{"train_loss": 0.8370727648337682, "train_eval_score": 0.41227832436561584, "learning_rate": 0.0002, "epoch": 18, "iteration": 300, "_timestamp": 1715903756.6285744, "_runtime": 175.75994229316711, "_step": 8, "val_eval_score": 0.2939191870391369}
