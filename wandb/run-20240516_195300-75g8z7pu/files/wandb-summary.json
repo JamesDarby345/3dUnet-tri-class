@@ -1,1 +1,1 @@
-{"train_loss": 0.8370727648337682, "train_eval_score": 0.41227832436561584, "learning_rate": 0.0002, "epoch": 18, "iteration": 300, "_timestamp": 1715903756.6285744, "_runtime": 175.75994229316711, "_step": 8, "val_eval_score": 0.2939191870391369}
+{"train_loss": 0.6769167361781001, "train_eval_score": 0.3774581849575043, "learning_rate": 0.0002, "epoch": 49, "iteration": 800, "_timestamp": 1715904046.3239267, "_runtime": 465.4552946090698, "_step": 23, "val_eval_score": 0.42725346609950066, "_wandb": {"runtime": 465}}

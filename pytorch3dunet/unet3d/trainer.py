@@ -5,6 +5,8 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.tensorboard import SummaryWriter
 from datetime import datetime
 import wandb
+from PIL import Image
+import numpy as np
 
 from pytorch3dunet.datasets.utils import get_train_loaders
 from pytorch3dunet.unet3d.losses import get_loss_criterion
@@ -169,10 +171,14 @@ class UNetTrainer:
 
         # sets the model in training mode
         self.model.train()
+        new_epoch = True
 
         for t in self.loaders['train']:
-            logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
+            if new_epoch:
+                logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
                         f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
+                new_epoch = False
+            
 
             input, target, weight = self._split_training_batch(t)
 
@@ -186,10 +192,12 @@ class UNetTrainer:
             self.optimizer.step()
 
             if self.num_iterations % self.validate_after_iters == 0:
+                logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
+                        f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
                 # set the model in eval mode
                 self.model.eval()
                 # evaluate on validation set
-                eval_score = self.validate()
+                eval_score = self.validate(self.num_epochs)
                 # set the model back to training mode
                 self.model.train()
 
@@ -232,7 +240,7 @@ class UNetTrainer:
                     f'Training stats. Loss: {train_losses.avg}. Evaluation score: {train_eval_scores.avg}')
                 self._log_stats('train', train_losses.avg, train_eval_scores.avg)
                 # self._log_params()
-                self._log_images(input, target, output, 'train_')
+                self._log_images(input, target, output, 'train_', self.num_epochs)
 
                 # Log metrics to Weights and Biases
                 wandb.log({
@@ -244,6 +252,7 @@ class UNetTrainer:
                 })
 
             if self.should_stop():
+                self._log_images(input, target, output, 'train_', self.num_epochs)
                 return True
 
             self.num_iterations += 1
@@ -267,7 +276,7 @@ class UNetTrainer:
 
         return False
 
-    def validate(self):
+    def validate(self, epochs=None):
         logger.info('Validating...')
 
         val_losses = utils.RunningAverage()
@@ -283,7 +292,7 @@ class UNetTrainer:
                 val_losses.update(loss.item(), self._batch_size(input))
 
                 if i % 100 == 0:
-                    self._log_images(input, target, output, 'val_')
+                    self._log_images(input, target, output, 'val_', epochs=epochs)
 
                 eval_score = self.eval_criterion(output, target)
                 val_scores.update(eval_score.item(), self._batch_size(input))
@@ -383,7 +392,7 @@ class UNetTrainer:
             self.writer.add_histogram(name, value.data.cpu().numpy(), self.num_iterations)
             self.writer.add_histogram(name + '/grad', value.grad.data.cpu().numpy(), self.num_iterations)
 
-    def _log_images(self, input, target, prediction, prefix=''):
+    def _log_images(self, input, target, prediction, prefix='', epochs=None):
 
         if isinstance(self.model, nn.DataParallel):
             net = self.model.module
@@ -409,6 +418,37 @@ class UNetTrainer:
         for name, batch in img_sources.items():
             for tag, image in self.tensorboard_formatter(name, batch):
                 self.writer.add_image(prefix + tag, image, self.num_iterations)
+
+        # Extract the first slice of each 3D image and log as W&B artifact
+        artifact = wandb.Artifact('3d-image-slices', type='dataset')
+        for name, batch in img_sources.items():
+            # Assuming the batch is in NDHW format (batch_size, channel, depth, height, width)
+            print(batch.shape)
+            if len(batch.shape) == 5:
+                first_cube = batch[0, 0, :, :, :]  # Extract the first slice along the channel dimension
+            elif len(batch.shape) == 4:
+                first_cube = batch[0, :, :, :]
+            else:
+                raise ValueError(f'Unsupported batch shape: {batch.shape}')
+            print(first_cube.shape)
+            slice = first_cube[0]
+            slice = (slice - slice.min()) / (slice.max() - slice.min()) * 255
+            slice = slice.astype(np.uint8)
+            # Convert the slice to a PIL Image and save it
+            print(slice.shape)
+            slice_image = Image.fromarray(slice)
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            if epochs is not None:
+                slice_path = f'{prefix}epoch_{epochs}_{timestamp}_{name}_slice.png'
+            else:
+                slice_path = f'{prefix}{timestamp}_{name}_slice.png'
+            slice_image.save(slice_path)
+            artifact.add_file(slice_path)
+            # Delete the file after adding it to the artifact
+            os.remove(slice_path)
+
+        # Log the artifact
+        wandb.log_artifact(artifact)
 
     @staticmethod
     def _batch_size(input):

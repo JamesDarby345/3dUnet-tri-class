@@ -19,9 +19,9 @@
         "checkpoint_dir": "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints",
         "resume": null,
         "pre_trained": null,
-        "validate_after_iters": 100,
-        "log_after_iters": 50,
-        "max_num_epochs": 50,
+        "validate_after_iters": 300,
+        "log_after_iters": 300,
+        "max_num_epochs": 500,
         "max_num_iterations": 6000000,
         "eval_score_higher_is_better": true
     },
@@ -33,7 +33,7 @@
         "weight_decay": 1e-05
     },
     "eval_metric": {
-        "name": "MeanIoU"
+        "name": "BoundaryAveragePrecision"
     },
     "lr_scheduler": {
         "name": "ReduceLROnPlateau",

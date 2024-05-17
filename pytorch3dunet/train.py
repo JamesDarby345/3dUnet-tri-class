@@ -15,9 +15,9 @@ def main():
     config, config_path = load_config()
     logger.info(config)
 
-    train_file_paths = config['loaders']['train']['file_paths']
-    patch_shape = config['loaders']['train']['slice_builder']['patch_shape']
-    transforms = config['loaders']['train']['transformer']
+    # train_file_paths = config['loaders']['train']['file_paths']
+    # patch_shape = config['loaders']['train']['slice_builder']['patch_shape']
+    # transforms = config['loaders']['train']['transformer']
 
     # Initialize Weights and Biases
     wandb.init(project='tri-class-3dunet-vesuvius', config=config)

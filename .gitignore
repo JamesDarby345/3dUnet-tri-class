@@ -9,7 +9,7 @@ __pycache__/
 
 # Tensorboard logs
 logs/
-/wandb
+wandb/
 
 # PyTorch models
 *.pytorch
@@ -19,3 +19,4 @@ pytorch3dunet.egg-info/
 dist/
 
 /data
+/wandb

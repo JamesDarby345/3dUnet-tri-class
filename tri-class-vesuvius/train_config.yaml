@@ -29,11 +29,11 @@ trainer:
   # make sure to decrease the learning rate in the optimizer config accordingly
   pre_trained: null
   # how many iterations between validations
-  validate_after_iters: 100
+  validate_after_iters: 300
   # how many iterations between tensorboard logging
-  log_after_iters: 50
+  log_after_iters: 300
   # max number of epochs
-  max_num_epochs: 50
+  max_num_epochs: 500
   # max number of iterations
   max_num_iterations: 6000000
   # model with higher eval score is considered better
@@ -51,7 +51,7 @@ optimizer:
 # evaluation metric
 eval_metric:
   # use average precision metric
-  name: MeanIoU
+  name: BoundaryAveragePrecision #MeanIoU
 # learning rate scheduler configuration
 lr_scheduler:
   # reduce learning rate when evaluation metric plateaus
