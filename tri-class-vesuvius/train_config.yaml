@@ -29,11 +29,11 @@ trainer:
   # make sure to decrease the learning rate in the optimizer config accordingly
   pre_trained: null
   # how many iterations between validations
-  validate_after_iters: 300
+  validate_after_iters: 150
   # how many iterations between tensorboard logging
-  log_after_iters: 300
+  log_after_iters: 150
   # max number of epochs
-  max_num_epochs: 500
+  max_num_epochs: 2500
   # max number of iterations
   max_num_iterations: 6000000
   # model with higher eval score is considered better
@@ -81,7 +81,7 @@ loaders:
   train:
     # paths to the training datasets
     file_paths:
-      - /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset
+      - /home/james/Documents/VS/3dUnet-tri-class/data/Vesuvius/train/dataset
 
     # SliceBuilder configuration, i.e. how to iterate over the input volume patch-by-patch
     slice_builder:
@@ -114,8 +114,8 @@ loaders:
           # rotates by choosing random angle from [-30, 30] deg
           angle_spectrum: 30
           mode: reflect
-        # - name: ElasticDeformation
-        #   spline_order: 3
+        - name: ElasticDeformation
+          spline_order: 3
         - name: ToTensor
           expand_dims: true
       label: 
@@ -128,8 +128,8 @@ loaders:
           axes: [ [0, 1], [0, 2], [1, 2] ]
           angle_spectrum: 30
           mode: reflect
-        # - name: ElasticDeformation
-        #   spline_order: 0
+        - name: ElasticDeformation
+          spline_order: 0
         # convert target volume to binary mask
         - name: ToTensor
           expand_dims: false
@@ -139,7 +139,7 @@ loaders:
   val:
     # paths to the val datasets
     file_paths:
-      - /home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/val/dataset
+      - /home/james/Documents/VS/3dUnet-tri-class/data/Vesuvius/val/dataset
 
     # SliceBuilder configuration, i.e. how to iterate over the input volume patch-by-patch
     slice_builder:

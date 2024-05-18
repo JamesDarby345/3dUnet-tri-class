@@ -19,9 +19,9 @@
         "checkpoint_dir": "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints",
         "resume": null,
         "pre_trained": null,
-        "validate_after_iters": 300,
-        "log_after_iters": 300,
-        "max_num_epochs": 500,
+        "validate_after_iters": 150,
+        "log_after_iters": 150,
+        "max_num_epochs": 2500,
         "max_num_iterations": 6000000,
         "eval_score_higher_is_better": true
     },
@@ -50,7 +50,7 @@
         "weight_internal_path": null,
         "train": {
             "file_paths": [
-                "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/train/dataset"
+                "/home/james/Documents/VS/3dUnet-tri-class/data/Vesuvius/train/dataset"
             ],
             "slice_builder": {
                 "name": "FilterSliceBuilder",
@@ -88,6 +88,10 @@
                         "mode": "reflect"
                     },
                     {
+                        "name": "ElasticDeformation",
+                        "spline_order": 3
+                    },
+                    {
                         "name": "ToTensor",
                         "expand_dims": true
                     }
@@ -119,6 +123,10 @@
                         "mode": "reflect"
                     },
                     {
+                        "name": "ElasticDeformation",
+                        "spline_order": 0
+                    },
+                    {
                         "name": "ToTensor",
                         "expand_dims": false,
                         "dtype": "long"
@@ -128,7 +136,7 @@
         },
         "val": {
             "file_paths": [
-                "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/val/dataset"
+                "/home/james/Documents/VS/3dUnet-tri-class/data/Vesuvius/val/dataset"
             ],
             "slice_builder": {
                 "name": "FilterSliceBuilder",

@@ -3,6 +3,11 @@ import h5py
 import nrrd
 import numpy as np
 
+import os
+import h5py
+import nrrd
+import numpy as np
+
 def create_hdf5_files(raw_dir, label_dir, output_dir, weight_dir=None):
     # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
@@ -11,14 +16,16 @@ def create_hdf5_files(raw_dir, label_dir, output_dir, weight_dir=None):
         if raw_filename.endswith('.nrrd'):
             # Construct full file paths for raw and label
             raw_path = os.path.join(raw_dir, raw_filename)
-            label_filename = f"tri_class_{raw_filename}"
+            base_name = '_'.join(raw_filename.split('_')[:-1])
+            label_filename = "tri_class_"+base_name+'_label.nrrd'
             label_path = os.path.join(label_dir, label_filename)
 
             print(f"Processing: {raw_filename} and {label_filename}")
             
             if not os.path.exists(label_path):
-                label_filename = "tri_class_"+'_'.join(raw_filename.split('_')[:-1])+'_label.nrrd'
-                print(f"Label file not found for {raw_filename}, trying {label_filename}")
+                print(f"Label file not found for {label_filename}")
+                label_filename = f"tri_class_{raw_filename}"
+                print(f"trying {label_filename}")
                 label_path = os.path.join(label_dir, label_filename)
             if not os.path.exists(label_path):
                 print(f"Label file not found for {raw_filename}, skipping.")
@@ -42,7 +49,7 @@ def create_hdf5_files(raw_dir, label_dir, output_dir, weight_dir=None):
                 weight_data = np.asarray(weight_data, dtype=np.float32)
             
             # Construct output file path
-            output_filename = os.path.splitext(raw_filename)[0] + '.h5'
+            output_filename = base_name + '.h5'
             output_path = os.path.join(output_dir, output_filename)
             
             # Create HDF5 file
@@ -56,22 +63,22 @@ def create_hdf5_files(raw_dir, label_dir, output_dir, weight_dir=None):
 
 
 
-
+current_directory = os.getcwd()
 
 sub_dir = 'test'
-raw_directory = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/raw'
-label_directory = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/label'
-output_hdf5_path = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/dataset'
+raw_directory = f'{current_directory}/data/Vesuvius/{sub_dir}/raw'
+label_directory = f'{current_directory}/data/Vesuvius/{sub_dir}/label'
+output_hdf5_path = f'{current_directory}/data/Vesuvius/{sub_dir}/dataset'
 create_hdf5_files(raw_directory, label_directory, output_hdf5_path)
 
 sub_dir = 'train'
-raw_directory = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/raw'
-label_directory = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/label'
-output_hdf5_path = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/dataset'
+raw_directory = f'{current_directory}/data/Vesuvius/{sub_dir}/raw'
+label_directory = f'{current_directory}/data/Vesuvius/{sub_dir}/label'
+output_hdf5_path = f'{current_directory}/data/Vesuvius/{sub_dir}/dataset'
 create_hdf5_files(raw_directory, label_directory, output_hdf5_path)
 
 sub_dir = 'val'
-raw_directory = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/raw'
-label_directory = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/label'
-output_hdf5_path = f'/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/{sub_dir}/dataset'
+raw_directory = f'{current_directory}/data/Vesuvius/{sub_dir}/raw'
+label_directory = f'{current_directory}/data/Vesuvius/{sub_dir}/label'
+output_hdf5_path = f'{current_directory}/data/Vesuvius/{sub_dir}/dataset'
 create_hdf5_files(raw_directory, label_directory, output_hdf5_path)

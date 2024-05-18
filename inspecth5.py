@@ -1,4 +1,5 @@
 import h5py
+import os
 
 def inspect_hdf5_file(file_path):
     print(f"Inspecting HDF5 file: {file_path}")
@@ -13,7 +14,8 @@ def inspect_hdf5_file(file_path):
         
         f.visititems(print_attrs)
 
+current_directory = os.getcwd()
 # Example usage
-file_path = '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/data/Vesuvius/test/dataset/layers_1.h5'
+file_path = f'{current_directory}/data/Vesuvius/train/dataset/3350_4000_8450_xyz_256_res1_s4.h5'
 # file_path = '/home/james/Documents/VS/pytorch-3dunet-instanceSeg/resources/sample_ovule.h5'
 inspect_hdf5_file(file_path)

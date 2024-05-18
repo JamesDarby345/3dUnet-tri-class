@@ -420,7 +420,7 @@ class UNetTrainer:
                 self.writer.add_image(prefix + tag, image, self.num_iterations)
 
         # Extract the first slice of each 3D image and log as W&B artifact
-        artifact = wandb.Artifact('3d-image-slices', type='dataset')
+        artifact = wandb.Artifact(wandb.run.name, type='dataset')
         for name, batch in img_sources.items():
             # Assuming the batch is in NDHW format (batch_size, channel, depth, height, width)
             print(batch.shape)
