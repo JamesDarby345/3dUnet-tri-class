@@ -213,7 +213,7 @@ class UNetTrainer:
                 is_best = self._is_best_eval_score(eval_score)
 
                 # save checkpoint
-                self._save_checkpoint(is_best)
+                self._save_checkpoint(is_best, run_name=wandb.run.name)
 
                 wandb.log({
                     'val_eval_score': eval_score,
@@ -354,7 +354,7 @@ class UNetTrainer:
 
         return is_best
 
-    def _save_checkpoint(self, is_best):
+    def _save_checkpoint(self, is_best, run_name=None):
         # remove `module` prefix from layer names when using `nn.DataParallel`
         # see: https://discuss.pytorch.org/t/solved-keyerror-unexpected-key-module-encoder-embedding-weight-in-state-dict/1686/20
         if isinstance(self.model, nn.DataParallel):
@@ -363,6 +363,8 @@ class UNetTrainer:
             state_dict = self.model.state_dict()
 
         last_file_path = os.path.join(self.checkpoint_dir, 'last_checkpoint.pytorch')
+        if not os.path.exists(self.checkpoint_dir):
+            os.makedirs(self.checkpoint_dir, exist_ok=True)
         logger.info(f"Saving checkpoint to '{last_file_path}'")
 
         utils.save_checkpoint({
@@ -371,7 +373,7 @@ class UNetTrainer:
             'model_state_dict': state_dict,
             'best_eval_score': self.best_eval_score,
             'optimizer_state_dict': self.optimizer.state_dict(),
-        }, is_best, checkpoint_dir=self.checkpoint_dir)
+        }, is_best, checkpoint_dir=self.checkpoint_dir, run_name=run_name)
 
     def _log_lr(self):
         lr = self.optimizer.param_groups[0]['lr']
