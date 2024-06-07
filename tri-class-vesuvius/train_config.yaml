@@ -1,4 +1,5 @@
 # Sample configuration file for training a 3D U-Net on a multiclass semantic segmentation task.
+# run with train3dunet --config tri-class-vesuvius/train_config.yaml
 
 # model configuration
 model:
@@ -106,30 +107,30 @@ loaders:
         - name: RandomFlip
         # randomly rotates the volume with 90 deg across a randomly chosen plane
         - name: RandomRotate90
-        - name: RandomRotate
-          # # rotate only in ZY plane due to anisotropy
-          # axes: [ [ 2, 1 ] ]
-          # rotate across all planes: XY, XZ, and YZ
-          axes: null
-          # rotates by choosing random angle from [-30, 30] deg
-          angle_spectrum: 30
-          mode: reflect
-        - name: ElasticDeformation
-          spline_order: 3
+        # - name: RandomRotate
+        #   # # rotate only in ZY plane due to anisotropy
+        #   # axes: [ [ 2, 1 ] ]
+        #   # rotate across all planes: XY, XZ, and YZ
+        #   axes: null
+        #   # rotates by choosing random angle from [-30, 30] deg
+        #   angle_spectrum: 30
+        #   mode: reflect
+        # - name: ElasticDeformation
+        #   spline_order: 3
         - name: ToTensor
           expand_dims: true
       label: 
         - name: RandomFlip
         - name: RandomRotate90
-        - name: RandomRotate
-          # # rotate only in ZY plane due to anisotropy
-          # axes: [ [ 2, 1 ] ]
-          # rotate across all planes: XY, XZ, and YZ
-          axes: [ [0, 1], [0, 2], [1, 2] ]
-          angle_spectrum: 30
-          mode: reflect
-        - name: ElasticDeformation
-          spline_order: 0
+        # - name: RandomRotate
+        #   # # rotate only in ZY plane due to anisotropy
+        #   # axes: [ [ 2, 1 ] ]
+        #   # rotate across all planes: XY, XZ, and YZ
+        #   axes: [ [0, 1], [0, 2], [1, 2] ]
+        #   angle_spectrum: 30
+        #   mode: reflect
+        # - name: ElasticDeformation
+        #   spline_order: 0
         # convert target volume to binary mask
         - name: ToTensor
           expand_dims: false

@@ -19,4 +19,5 @@ pytorch3dunet.egg-info/
 dist/
 
 /data
+/data_old
 /wandb

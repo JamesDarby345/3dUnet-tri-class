@@ -82,16 +82,6 @@
                         "name": "RandomRotate90"
                     },
                     {
-                        "name": "RandomRotate",
-                        "axes": null,
-                        "angle_spectrum": 30,
-                        "mode": "reflect"
-                    },
-                    {
-                        "name": "ElasticDeformation",
-                        "spline_order": 3
-                    },
-                    {
                         "name": "ToTensor",
                         "expand_dims": true
                     }
@@ -102,29 +92,6 @@
                     },
                     {
                         "name": "RandomRotate90"
-                    },
-                    {
-                        "name": "RandomRotate",
-                        "axes": [
-                            [
-                                0,
-                                1
-                            ],
-                            [
-                                0,
-                                2
-                            ],
-                            [
-                                1,
-                                2
-                            ]
-                        ],
-                        "angle_spectrum": 30,
-                        "mode": "reflect"
-                    },
-                    {
-                        "name": "ElasticDeformation",
-                        "spline_order": 0
                     },
                     {
                         "name": "ToTensor",
