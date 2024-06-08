@@ -19,7 +19,7 @@ model:
   final_sigmoid: false
   # if True applies the final normalization layer (sigmoid or softmax), otherwise the networks returns the output from the final convolution layer; use False for regression problems, e.g. de-noising
   is_segmentation: true
-  manual_seed: 42
+  # manual_seed: 42
 # trainer configuration
 trainer:
   # path to the checkpoint directory
@@ -30,9 +30,9 @@ trainer:
   # make sure to decrease the learning rate in the optimizer config accordingly
   pre_trained: null
   # how many iterations between validations
-  validate_after_iters: 150
+  validate_after_iters: 500
   # how many iterations between tensorboard logging
-  log_after_iters: 150
+  log_after_iters: 500
   # max number of epochs
   max_num_epochs: 2500
   # max number of iterations
@@ -60,9 +60,9 @@ lr_scheduler:
   # use 'max' if eval_score_higher_is_better=True, 'min' otherwise
   mode: max
   # factor by which learning rate will be reduced
-  factor: 0.2
+  factor: 0.5
   # number of *validation runs* with no improvement after which learning rate will be reduced
-  patience: 8
+  patience: 16
 
 # data loaders configuration
 loaders:
@@ -148,9 +148,9 @@ loaders:
       # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better) #180^3 fits in 24GB VRAM, mixed precision may allow larger patches
       patch_shape: [ 180,180,180 ]
       # train stride between patches, here we use data size (256) - patch size (180) = 76
-      stride_shape: [ 76,76,76 ]
+      stride_shape: [ 38,38,38 ]
       # minimum volume of the labels in the patch
-      threshold: 0.01
+      threshold: 0.30
       # probability of accepting patches which do not fulfil the threshold criterion
       slack_acceptance: 0.01
 
