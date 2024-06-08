@@ -27,10 +27,10 @@ def save_checkpoint(state, is_best, checkpoint_dir, run_name=None):
     if not os.path.exists(checkpoint_dir):
         os.mkdir(checkpoint_dir)
 
-    last_file_path = os.path.join(checkpoint_dir, 'last_checkpoint.pytorch')
+    last_file_path = os.path.join(checkpoint_dir, f'{run_name}_last_checkpoint.pytorch')
     torch.save(state, last_file_path)
     if is_best:
-        best_file_path = os.path.join(checkpoint_dir, 'best_checkpoint.pytorch')
+        best_file_path = os.path.join(checkpoint_dir, f'{run_name}_best_checkpoint.pytorch')
         shutil.copyfile(last_file_path, best_file_path)
 
 

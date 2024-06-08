@@ -362,7 +362,7 @@ class UNetTrainer:
         else:
             state_dict = self.model.state_dict()
 
-        last_file_path = os.path.join(self.checkpoint_dir, 'last_checkpoint.pytorch')
+        last_file_path = os.path.join(self.checkpoint_dir, f'{run_name}_last_checkpoint.pytorch')
         if not os.path.exists(self.checkpoint_dir):
             os.makedirs(self.checkpoint_dir, exist_ok=True)
         logger.info(f"Saving checkpoint to '{last_file_path}'")
