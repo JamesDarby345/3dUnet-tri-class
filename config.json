@@ -12,15 +12,14 @@
         ],
         "num_groups": 8,
         "final_sigmoid": false,
-        "is_segmentation": true,
-        "manual_seed": 42
+        "is_segmentation": true
     },
     "trainer": {
         "checkpoint_dir": "/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints",
         "resume": null,
         "pre_trained": null,
-        "validate_after_iters": 150,
-        "log_after_iters": 150,
+        "validate_after_iters": 500,
+        "log_after_iters": 500,
         "max_num_epochs": 2500,
         "max_num_iterations": 6000000,
         "eval_score_higher_is_better": true
@@ -29,8 +28,8 @@
         "name": "WeightedCrossEntropyLoss"
     },
     "optimizer": {
-        "learning_rate": 0.0002,
-        "weight_decay": 1e-05
+        "learning_rate": 0.02,
+        "weight_decay": 0.001
     },
     "eval_metric": {
         "name": "BoundaryAveragePrecision"
@@ -38,8 +37,8 @@
     "lr_scheduler": {
         "name": "ReduceLROnPlateau",
         "mode": "max",
-        "factor": 0.2,
-        "patience": 8
+        "factor": 0.5,
+        "patience": 16
     },
     "loaders": {
         "dataset": "StandardHDF5Dataset",
@@ -113,11 +112,11 @@
                     180
                 ],
                 "stride_shape": [
-                    76,
-                    76,
-                    76
+                    38,
+                    38,
+                    38
                 ],
-                "threshold": 0.01,
+                "threshold": 0.3,
                 "slack_acceptance": 0.01
             },
             "transformer": {
