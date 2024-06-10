@@ -23,7 +23,7 @@ model:
 # trainer configuration
 trainer:
   # path to the checkpoint directory
-  checkpoint_dir: /home/james/Documents/VS/3dunet-tri-class/checkpoints
+  checkpoint_dir: /home/james/Documents/VS/3dUnet-tri-class/checkpoints
   # path to the latest checkpoint; if provided the training will be resumed from that checkpoint
   resume: null #/home/james/Documents/VS/pytorch-3dunet-instanceSeg/checkpoints/last_checkpoint.pytorch
   # path to the best_checkpoint.pytorch; to be used for fine-tuning the model with additional ground truth
@@ -92,7 +92,7 @@ loaders:
       # train patch size given to the network (adapt to fit in your GPU mem, generally the bigger patch the better) #180^3 fits in 24GB VRAM, mixed precision may allow larger patches
       patch_shape: [ 180,180,180 ]
       # train stride between patches, here we use data size (256) - patch size (180) = 76, thus center of patch is preferred
-      stride_shape: [ 38,38,38 ]
+      stride_shape: [ 76,76,76 ]
       # minimum volume of the labels in the patch
       threshold: 0.01
       # probability of accepting patches which do not fulfil the threshold criterion
