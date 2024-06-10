@@ -18,6 +18,7 @@ wandb/
 pytorch3dunet.egg-info/
 dist/
 
+/checkpoints
 /data
 /data_old
 /wandb
