@@ -1,5 +1,5 @@
 # Sample configuration file for training a 3D U-Net on a multiclass semantic segmentation task.
-# run with train3dunet --config tri-class-vesuvius/train_config.yaml
+# run with train3dunet --config tri-class-vesuvius/train_config_WPCE.yaml
 
 # model configuration
 model:
@@ -43,6 +43,7 @@ trainer:
 loss:
   # use PWCE loss for training, to prioritise the border class
   name: PixelWiseCrossEntropyLoss
+  
 # optimizer configuration
 optimizer:
   # initial learning rate
@@ -79,7 +80,7 @@ loaders:
   # path to the label data within the H5
   label_internal_path: label/
   # path to the pixel-wise weight map within the H5 if present
-  weight_internal_path: null
+  weight_internal_path: weight/
   # configuration of the train loader
   train:
     # paths to the training datasets
@@ -138,6 +139,23 @@ loaders:
           expand_dims: false
           dtype: long
 
+      weight:
+        - name: RandomFlip
+        - name: RandomRotate90
+        # - name: RandomRotate
+        #   # # rotate only in ZY plane due to anisotropy
+        #   # axes: [ [ 2, 1 ] ]
+        #   # rotate across all planes: XY, XZ, and YZ
+        #   axes: [ [0, 1], [0, 2], [1, 2] ]
+        #   angle_spectrum: 30
+        #   mode: reflect
+        # - name: ElasticDeformation
+        #   spline_order: 0
+        # convert target volume to binary mask
+        - name: ToTensor
+          expand_dims: false
+          dtype: long
+
   # configuration of the val loader
   val:
     # paths to the val datasets
@@ -163,6 +181,10 @@ loaders:
         - name: ToTensor
           expand_dims: true
       label:
+        - name: ToTensor
+          expand_dims: false
+          dtype: long
+      weight:
         - name: ToTensor
           expand_dims: false
           dtype: long
