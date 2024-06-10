@@ -1,5 +1,5 @@
 # Sample configuration file for training a 3D U-Net on a multiclass semantic segmentation task.
-# run with train3dunet --config tri-class-vesuvius/train_config_WPCE.yaml
+# run with train3dunet --config tri-class-vesuvius/train_config_PWCE.yaml
 
 # model configuration
 model:
