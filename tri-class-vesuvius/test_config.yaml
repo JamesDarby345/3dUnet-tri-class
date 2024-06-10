@@ -1,5 +1,6 @@
+# run using: predict3dunet --config tri-class-vesuvius/test_config.yaml
 # path to the checkpoint file containing the model
-model_path: /home/james/Documents/VS/3dUnet-tri-class/checkpoints/augs-no-30deg-rot-best_checkpoint.pytorch
+model_path: /home/james/Documents/VS/3dUnet-tri-class/checkpoints/gentle-dawn-64/gentle-dawn-64_last_checkpoint.pytorch
 # model configuration
 model:
   # model class
