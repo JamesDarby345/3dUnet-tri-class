@@ -53,9 +53,9 @@ optimizer:
 # evaluation metric
 eval_metric:
   # use AdaptedRandError metric
-  name: BoundaryAdaptedRandError
+  name: BoundaryAveragePrecision
   # probability maps threshold
-  threshold: 0.4
+  # threshold: 0.4
 # learning rate scheduler configuration
 lr_scheduler:
   # reduce learning rate when evaluation metric plateaus
