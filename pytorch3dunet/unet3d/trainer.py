@@ -15,6 +15,8 @@ from pytorch3dunet.unet3d.model import get_model, UNet2D
 from pytorch3dunet.unet3d.utils import get_logger, get_tensorboard_formatter, create_optimizer, \
     create_lr_scheduler, get_number_of_learnable_parameters
 from . import utils
+from torch.cuda.amp import GradScaler, autocast
+
 
 logger = get_logger('UNetTrainer')
 
@@ -92,7 +94,7 @@ class UNetTrainer:
     def __init__(self, model, optimizer, lr_scheduler, loss_criterion, eval_criterion, loaders, checkpoint_dir,
                  max_num_epochs, max_num_iterations, validate_after_iters=200, log_after_iters=100, validate_iters=None,
                  num_iterations=1, num_epoch=0, eval_score_higher_is_better=True, tensorboard_formatter=None,
-                 skip_train_validation=False, resume=None, pre_trained=None, **kwargs):
+                 skip_train_validation=False, resume=None, pre_trained=None, accumulation_steps=8, **kwargs):
 
         self.model = model
         self.optimizer = optimizer
@@ -107,6 +109,8 @@ class UNetTrainer:
         self.log_after_iters = log_after_iters
         self.validate_iters = validate_iters
         self.eval_score_higher_is_better = eval_score_higher_is_better
+        self.accumulation_steps = accumulation_steps 
+        self.scaler = GradScaler() 
 
         logger.info(model)
         logger.info(f'eval_score_higher_is_better: {eval_score_higher_is_better}')
@@ -173,6 +177,9 @@ class UNetTrainer:
         self.model.train()
         new_epoch = True
 
+        #new
+        # self.optimizer.zero_grad()  # Initialize gradients to zero
+
         for t in self.loaders['train']:
             if new_epoch:
                 logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
@@ -182,14 +189,24 @@ class UNetTrainer:
 
             input, target, weight = self._split_training_batch(t)
 
-            output, loss = self._forward_pass(input, target, weight)
+            with autocast():  # Use autocast for mixed precision
+                output, loss = self._forward_pass(input, target, weight)
 
             train_losses.update(loss.item(), self._batch_size(input))
 
+            # Scale loss by accumulation steps and compute gradients
+            # loss = loss / self.accumulation_steps
+            # self.scaler.scale(loss).backward()
+
             # compute gradients and update parameters
             self.optimizer.zero_grad()
-            loss.backward()
-            self.optimizer.step()
+            self.scaler.scale(loss).backward()  # Use scaler to scale the loss and backpropagate
+            self.scaler.step(self.optimizer)  # Use scaler to update the optimizer
+            self.scaler.update()  # Update the scaler
+
+            if self.num_iterations % self.accumulation_steps == 0:
+                logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
+                            f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
 
             if self.num_iterations % self.validate_after_iters == 0:
                 logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
@@ -288,7 +305,8 @@ class UNetTrainer:
 
                 input, target, weight = self._split_training_batch(t)
 
-                output, loss = self._forward_pass(input, target, weight)
+                with autocast():  # Use autocast for mixed precision
+                    output, loss = self._forward_pass(input, target, weight)
                 val_losses.update(loss.item(), self._batch_size(input))
 
                 if i % 100 == 0:
