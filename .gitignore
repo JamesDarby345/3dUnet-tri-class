@@ -18,6 +18,7 @@ wandb/
 pytorch3dunet.egg-info/
 dist/
 
+/tri-class-vesuvius
 /checkpoints
 /data
 /data_old

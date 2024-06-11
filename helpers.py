@@ -7,6 +7,22 @@ import random
 import matplotlib.pyplot as plt
 import scipy.ndimage
 
+def read_hdf5_file(file_path):
+    # Open the HDF5 file
+    with h5py.File(file_path, 'r') as hdf5_file:
+        # Print all dataset names
+        print("Datasets in the file:")
+        for name in hdf5_file:
+            print(name)
+        
+        # Read datasets into NumPy arrays
+        data = {}
+        for name in hdf5_file:
+            data[name] = np.array(hdf5_file[name])
+            print(f"{name} shape: {data[name].shape}")
+
+    return data
+
 def label_foreground_structures(input_array, min_size=1000):
     """
     Label connected foreground structures in the input array, removing small structures below a specified size.
