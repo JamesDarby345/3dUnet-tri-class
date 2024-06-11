@@ -114,6 +114,7 @@ class UNetTrainer:
 
         logger.info(model)
         logger.info(f'eval_score_higher_is_better: {eval_score_higher_is_better}')
+        logger.info(f'accumulation_steps: {accumulation_steps}')
 
         # initialize the best_eval_score
         if eval_score_higher_is_better:
@@ -177,15 +178,13 @@ class UNetTrainer:
         self.model.train()
         new_epoch = True
 
-        #new
-        # self.optimizer.zero_grad()  # Initialize gradients to zero
+        self.optimizer.zero_grad()  # Initialize gradients to zero
 
         for t in self.loaders['train']:
             if new_epoch:
                 logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
-                        f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
+                            f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
                 new_epoch = False
-            
 
             input, target, weight = self._split_training_batch(t)
 
@@ -195,22 +194,20 @@ class UNetTrainer:
             train_losses.update(loss.item(), self._batch_size(input))
 
             # Scale loss by accumulation steps and compute gradients
-            # loss = loss / self.accumulation_steps
-            # self.scaler.scale(loss).backward()
+            loss = loss / self.accumulation_steps
+            self.scaler.scale(loss).backward()
+            
 
-            # compute gradients and update parameters
-            self.optimizer.zero_grad()
-            self.scaler.scale(loss).backward()  # Use scaler to scale the loss and backpropagate
-            self.scaler.step(self.optimizer)  # Use scaler to update the optimizer
-            self.scaler.update()  # Update the scaler
-
-            if self.num_iterations % self.accumulation_steps == 0:
+            if (self.num_iterations + 1) % self.accumulation_steps == 0:
+                self.scaler.step(self.optimizer)
+                self.scaler.update()
+                self.optimizer.zero_grad()
                 logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
                             f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
 
             if self.num_iterations % self.validate_after_iters == 0:
                 logger.info(f'Training iteration [{self.num_iterations}/{self.max_num_iterations}]. '
-                        f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
+                            f'Epoch [{self.num_epochs}/{self.max_num_epochs - 1}]')
                 # set the model in eval mode
                 self.model.eval()
                 # evaluate on validation set
